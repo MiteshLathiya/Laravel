@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
-
 class AdminProfileController extends Controller
 {
     /**
@@ -16,7 +15,8 @@ class AdminProfileController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function __construct(AdminProfileModel $model) {
+    public function __construct(AdminProfileModel $model)
+    {
         $this->AdminProfileModel = $model;
     }
 
@@ -57,7 +57,7 @@ class AdminProfileController extends Controller
         $data= $this->AdminProfileModel->all();
        
         
-        return view('layouts.admin.adminprofile',['data'=>$data]);
+        return view('layouts.admin.adminprofile', ['data'=>$data]);
     }
 
     /**
@@ -90,14 +90,14 @@ class AdminProfileController extends Controller
             'cpass.required' => 'Please insert Confirm Password!',
             'cpass.same' => 'New Password and Confrim Password doest not match!',
            
-        ];
+         ];
 
-        $request->validate([
+         $request->validate([
             // 'img'=>'required|image',
             'oldpass' => 'required',
             'newpass' => 'required',
             'cpass' => 'required|same:newpass'
-        ],$messages);
+         ], $messages);
       
        
         // return view('layouts.admin.adminprofile',['data'=>$data]);
@@ -111,20 +111,21 @@ class AdminProfileController extends Controller
         //     'new_password' => 'confirmed|max:8|different:password',
         // ]);
         
-        if (Hash::check($request->oldpass, $user->password)) { 
-           $user->fill([
+        if (Hash::check($request->oldpass, $user->password)) {
+            $user->fill([
             'password' => Hash::make($request->newpass)
             ])->save();
             
             $data= $this->AdminProfileModel->all();
             // $request->session()->flash('success', 'Password changed');
            
-           return view('layouts.admin.adminprofile')->with('data', $data)->with('successMsg','Password changed suucessfully');
-        
+            return view('layouts.admin.adminprofile')->with('data', $data)->with('successMsg', 'Password changed 
+            sucessfully');
         } else {
             $data= $this->AdminProfileModel->all();
             //  $request->session()->flash('error', 'Password does not match');
-            return view('layouts.admin.adminprofile')->with('data', $data)->with('errorMsg','Old Password does not match!');
+            return view('layouts.admin.adminprofile')->with('data', $data)->with('errorMsg', 'Old Password does not 
+            match!');
         }
     }
 

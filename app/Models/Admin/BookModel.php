@@ -1,11 +1,9 @@
 <?php
 
-namespace app\Models\Admin;
+namespace App\Models\Admin;
 
 use Illuminate\Database\Eloquent\Model;
 use Kyslik\ColumnSortable\Sortable;
-
-
 
 class BookModel extends Model
 {
@@ -20,8 +18,10 @@ class BookModel extends Model
       'image','name','category','author','ISBN_number','pages','language','description','price'
     ];
 
-    public $sortable = ['id', 'name', 'category', 'author', 'ISBN_number','pages','language','description','price'];
+   
     protected $table='books';
+
+    public $sortable = ['id', 'name', 'category', 'author', 'ISBN_number','pages','language','description','price'];
 
     // public function category()
     // {

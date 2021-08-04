@@ -42,11 +42,11 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
 
-            <div>
+            {{-- <div>
                
                 <label for="">Remember Me</label>
                 <input type="checkbox" name="remember_me" value="1">
-            </div>
+            </div> --}}
             
             @if ($errors->has('loginfailed'))
             <div class="alert alert-danger" role="alert">
@@ -54,10 +54,6 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
          <strong>{{ $errors->first('loginfailed') }}</strong> 
       </div>
     
-   
-    <!-- <span class="invalid-feedback" style="width: 110%; color: red;">
-        <strong></strong>
-    </span> -->
 @endif
 				<div class="clearfix"></div>
 				<input type="submit" value="Log in" name="login">

@@ -9,7 +9,8 @@ use phpDocumentor\Reflection\Types\Null_;
 class BookController extends Controller
 {
 
-    public function __construct(BookModel $model) {
+    public function __construct(BookModel $model)
+    {
         $this->BookModel = $model;
     }
     /**
@@ -30,7 +31,6 @@ class BookController extends Controller
      */
     public function create()
     {
-        
     }
 
     /**
@@ -66,28 +66,30 @@ class BookController extends Controller
             'lg'=>'required',
             'desc'=>'required',
             'pr'=>'required|string|max:255',
-        ],$messages);
+        ], $messages);
 
     
 
         $img=$request->file('img');
         $filename=rand(). '.'.$img->getClientOriginalExtension();
-        $img->move(public_path('bookimage'),$filename);
+        $img->move(public_path('bookimage'), $filename);
 
         $data=array(
              
-            'image'=>$filename, 
+            'image'=>$filename,
             'name'=>$request->nm,
             'category'=>$request->cat,
             'author' =>$request->auth,
             'ISBN_number'=>$request->num,
+            'pages'=>$request->pg,
+            'language'=>$request->lg,
+            'description'=>$request->desc,
             'price'=>$request->pr,
             );
             
          
             $this->BookModel->create($data);
             return redirect()->back()->with('added', 'Book added sucessfully!');
-
     }
 
     /**
@@ -105,21 +107,20 @@ class BookController extends Controller
         $request->session()->put('searchdata', $search);
        
         
-        if ($limit == Null) {
+        if ($limit == null) {
             $limit= 5;
         }
         
-        $data= $this->BookModel->where('name','LIKE','%'.$search.'%')
-                                    ->orWhere('category','LIKE','%'.$search.'%')
-                                    ->orWhere('author','LIKE','%'.$search.'%')
-                                    ->orWhere('ISBN_number','LIKE','%'.$search.'%')
-                                    ->orWhere('price','LIKE','%'.$search.'%')
+        $data= $this->BookModel->where('name', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('category', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('author', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('ISBN_number', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('price', 'LIKE', '%'.$search.'%')
                                     ->sortable()
                                     ->paginate($limit);
      
      
-        return view('layouts.admin.viewbook',['data'=>$data]);
-       
+        return view('layouts.admin.viewbook', ['data'=>$data]);
     }
 
    
@@ -136,7 +137,7 @@ class BookController extends Controller
 
   
        
-        return view('layouts.admin.editbook')->with('data',$data);
+        return view('layouts.admin.editbook')->with('data', $data);
     }
 
     /**
@@ -165,7 +166,7 @@ class BookController extends Controller
             'auth' =>'required',
             'num'=>'required|string|max:255',
             'pr'=>'required|string|max:255',
-        ],$messages);
+        ], $messages);
 
         
         $id = $request->id;
@@ -176,9 +177,8 @@ class BookController extends Controller
       
         $img=$request->file('img');
         if ($img !== null) {
-        
             $filename=rand(). '.'.$img->getClientOriginalExtension();
-            $img->move(public_path('bookimage'),$filename);
+            $img->move(public_path('bookimage'), $filename);
             $data=array(
                 'image'=>$filename
             );

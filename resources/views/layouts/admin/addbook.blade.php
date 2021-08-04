@@ -2,7 +2,7 @@
 @include('layouts.admin.header')
 @include('layouts.admin.sidebar')
 <!--main content start-->
-<section id="main-content" style="width: 90%;">
+<section id="main-content" style="margin-left: 170px">
     <section class="wrapper">
         <div class="form-w3layouts">
             <!-- page start-->

@@ -9,8 +9,6 @@ use App\Models\Admin\UserModel;
 
 use Faker\Generator as Faker;
 
-    
-
 $factory->define(UserModel::class, function (Faker $faker) {
     return [
         'firstname'     =>$faker->name(),
@@ -22,7 +20,7 @@ $factory->define(UserModel::class, function (Faker $faker) {
         // 'city'          =>$faker->randomElement(['Rajkot', 'Ahmedabad','Jamnagar','Surat','Vadodara']),
         // 'state'         =>$faker->randomElement(['Gujarat']),
         // 'country'       =>$faker->randomElement(['India']),
-        'password'       =>$faker->password(),
+        'password'       =>$faker->password("password"),
         
     ];
 });

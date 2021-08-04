@@ -9,7 +9,8 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function __construct(UserModel $model) {
+    public function __construct(UserModel $model)
+    {
         $this->UserModel = $model;
     }
     /**
@@ -57,20 +58,20 @@ class UserController extends Controller
         $request->session()->put('searchdata', $search);
        
         
-        if ($limit == Null) {
+        if ($limit == null) {
             $limit= 5;
         }
         
-        $data= $this->UserModel->where('firstname','LIKE','%'.$search.'%')
+        $data= $this->UserModel->where('firstname', 'LIKE', '%'.$search.'%')
                                
-                                ->orWhere('lastname','LIKE','%'.$search.'%')
+                                ->orWhere('lastname', 'LIKE', '%'.$search.'%')
                                
-                                ->orWhere('email','LIKE','%'.$search.'%')
-                                ->orWhere('mobile','LIKE','%'.$search.'%')
+                                ->orWhere('email', 'LIKE', '%'.$search.'%')
+                                ->orWhere('mobile', 'LIKE', '%'.$search.'%')
                                 ->sortable()
                                 ->paginate($limit);
      
-        return view('layouts.admin.viewuser',['data'=>$data]);
+        return view('layouts.admin.viewuser', ['data'=>$data]);
     }
 
     /**
@@ -83,7 +84,7 @@ class UserController extends Controller
     {
         $data = $this->UserModel->find($id);
        
-        return view('layouts.admin.edituser')->with('data',$data);
+        return view('layouts.admin.edituser')->with('data', $data);
     }
 
     /**
@@ -100,7 +101,7 @@ class UserController extends Controller
             'ln.required' => 'Please insert Last Name!',
             'em.required' => 'Please insert Email!',
             'mob.required' => 'Please insert Mobile!',
-            'mob.digits' => 'Enter 10 Digits Mobile Number!', 
+            'mob.digits' => 'Enter 10 Digits Mobile Number!',
             // 'addr.required' => 'Please insert Address!',
             // 'pcode.required' => 'Please insert Post Code!',
             // 'ct.required' => 'Please select City!',
@@ -124,38 +125,38 @@ class UserController extends Controller
                 // 'cn'=>'required|string',
                 // 'pass' => 'required|min:6',
                 // 'cpass' => 'required|same:pass'
-            ],$messages
-            );
+            ],
+            $messages
+        );
 
             $id = $request->id;
             $pass = $request->pass;
             $cpass = $request->cpass;
 
-            if ($pass AND $cpass !== Null) {
+        if ($pass and $cpass !== null) {
+            $messages = [
+                'pass.required' => 'Please insert Password!',
+                'cpass.required' => 'Please insert Confrim Password!',
+                'cpass.same' => 'New Password and Confrim Password doest not match!',
+            ];
 
-                $messages = [              
-                    'pass.required' => 'Please insert Password!',
-                    'cpass.required' => 'Please insert Confrim Password!',
-                    'cpass.same' => 'New Password and Confrim Password doest not match!',
-                ];
+            $request->validate(
+                [
+                    'pass' => 'required|min:6',
+                    'cpass' => 'required|same:pass'
+                ],
+                $messages
+            );
 
-                $request->validate(
-                    [       
-                        'pass' => 'required|min:6',
-                        'cpass' => 'required|same:pass'
-                    ],$messages
+                $data=array(
+                    'password'=>$request->cn,
+                    'password' => Hash::make($request->pass)
                     );
-
-                    $data=array(
-                        'password'=>$request->cn,
-                        'password' => Hash::make($request->pass)
-                        );
             
-                    // $data = $request->all();
-                    $dataid = $this->UserModel->find($id);
-                    $dataid->fill($data)->save();
-               
-            }
+                // $data = $request->all();
+                $dataid = $this->UserModel->find($id);
+                $dataid->fill($data)->save();
+        }
       
         $dataid = $this->UserModel->find($id);
 

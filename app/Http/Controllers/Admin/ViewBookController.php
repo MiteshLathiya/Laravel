@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-
 use Illuminate\Http\Request;
 use App\Models\Admin\ViewBookModel;
 
@@ -48,7 +47,7 @@ class ViewBookController extends Controller
     public function show($id)
     {
         $data=ViewBookModel::all();
-        return view('layout.admin.viewbook',['data'=>$data]);
+        return view('layout.admin.viewbook', ['data'=>$data]);
     }
 
     /**

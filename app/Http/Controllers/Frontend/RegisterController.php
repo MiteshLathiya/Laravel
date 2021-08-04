@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Hash;
 class RegisterController extends Controller
 {
 
-    public function __construct(RegisterModel $model) {
+    public function __construct(RegisterModel $model)
+    {
         $this->RegisterModel = $model;
     }
     /**
@@ -49,7 +50,7 @@ class RegisterController extends Controller
             'em.required' => 'Please insert Email!',
             'em.unique' => 'Email has already been taken.',
             'mob.required' => 'Please insert Mobile!',
-            'mob.digits' => 'Enter 10 Digits Mobile Number!', 
+            'mob.digits' => 'Enter 10 Digits Mobile Number!',
             // 'addr.required' => 'Please insert Address!',
             // 'pcode.required' => 'Please insert Post Code!',
             // 'ct.required' => 'Please select City!',
@@ -73,8 +74,9 @@ class RegisterController extends Controller
                 // 'cn'=>'required|string',
                 'pass' => 'required|min:6',
                 'cpass' => 'required|same:pass'
-            ],$messages
-            );
+            ],
+            $messages
+        );
 
             $data=array(
              

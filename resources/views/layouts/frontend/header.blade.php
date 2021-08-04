@@ -37,7 +37,7 @@
                 <div class="main-navigation flex-lg-right">
                     <div class="cart-widget">
                         <div class="login-block">
-                            <a href="login" class="font-weight-bold">Login</a> <br>
+                            <a href="{{ ('/User')}}" class="font-weight-bold">Login</a> <br>
                             <span>or</span><a href="{{ ('/Register')}}">Register</a>
                         </div>
                         <div class="cart-block">
