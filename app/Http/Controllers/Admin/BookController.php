@@ -224,7 +224,12 @@ class BookController extends Controller
 
         return redirect()->route('dashboard.viewbook')->with('delete', 'Book deleted sucessfully!');
     }
-
+    public function showproduct($id)
+    {
+        $data = $this->BookModel->find($id);
+      
+        return view('layouts.frontend.product-details')->with('data', $data);
+    }
     // public function pagination()
     // {
     //     $booksdata = BookModel::paginate(5);

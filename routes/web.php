@@ -30,7 +30,7 @@ Route::get('/UserLogout', 'Frontend\LoginController@logout');
 Route::get('/UserProfile', 'Frontend\UserController@index')->name('userprofile');
 Route::post('/EditUser', 'Frontend\UserController@update');
 
-Route::post('/AddToCart', 'Frontend\CartController@index');
+Route::get('/ViewCart/{id}', 'Admin\BookController@showproduct')->name('viewcart');
 
 
 //admin side

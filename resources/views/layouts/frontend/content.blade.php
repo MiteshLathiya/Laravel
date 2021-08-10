@@ -73,7 +73,7 @@
                                             <img src="{{ asset('style/frontend/image/products/'.$books->image) }}" alt="">
                                         </a>
                                         <div class="hover-btns">
-                                            <a href="{{ ('/AddToCart') }}" class="single-btn">
+                                            <a href="{{ route('viewcart',$books->id) }}" class="single-btn">
                                                 <i class="fas fa-shopping-basket"></i>
                                             </a>
                                             {{-- <a href="wishlist.html" class="single-btn">
