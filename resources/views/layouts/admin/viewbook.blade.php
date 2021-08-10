@@ -79,7 +79,7 @@
                         @foreach($data as $row)
                         <tr>
                             <td style="color:black;">{{ $row->id }}</td>
-                            <td style="color:black;">  <img src="{{ asset('public/bookimage/'.$row->image) }}" alt="" title=""><img href="{{ ($row->image) }}" style="width:80px; height:65px"></td>
+                            <td style="color:black;">  <img src="{{ asset('style/frontend/image/products/'.$row->image) }}" alt="" title="" style="width: 100px;height: 100px;"></td>
                             <td style="color:black">{{ $row->name }}</td>
                            
                             <td style="color:black">{{ $row->ISBN_number }}</td>

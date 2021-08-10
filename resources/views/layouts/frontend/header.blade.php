@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -37,9 +36,36 @@
                 <div class="main-navigation flex-lg-right">
                     <div class="cart-widget">
                         <div class="login-block">
-                            <a href="{{ ('/User')}}" class="font-weight-bold">Login</a> <br>
-                            <span>or</span><a href="{{ ('/Register')}}">Register</a>
+            
+                            @if (Auth::guard('register')->check())
+                            <div class="main-navigation flex-lg-right" style="margin-top: -55px">
+                                <ul class="main-menu menu-right li-last-0">
+                                    <li class="menu-item has-children">
+                                        <a href="javascript:void(0)">  
+                                           
+
+                                            <a style="font-size: 18px;" >{{ Auth::guard('register')->user()->firstname }}
+                                            <i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                                                         
+                                        <ul class="sub-menu">
+                                            <li>  <a href="{{ ('/UserProfile')}}" class="font-weight-bold">Edit Profile</a><br></li>
+                                            <li> <a href="{{ ('/UserLogout')}}" class="font-weight-bold">Logout</a> <br></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            @else
+                           
+                                            <a href="{{ ('/User')}}" class="font-weight-bold">Login</a> <br>
+                                            <span>or</span><a href="{{ ('/Register')}}">Register</a>
+                              
+                            @endif 
                         </div>
+
+
+                         
+                           
+                        
                         <div class="cart-block">
                             <div class="cart-total">
                                 <span class="text-number">

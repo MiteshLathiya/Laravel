@@ -6,5 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class IndexModel extends Model
 {
-    //
+
+    protected $fillable=[
+
+        'image','name','category','author','ISBN_number','pages','language','description','price'
+      ];
+
+    protected $table='books';
 }

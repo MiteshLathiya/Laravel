@@ -14,6 +14,9 @@ class RegisterController extends Controller
     public function __construct(RegisterModel $model)
     {
         $this->RegisterModel = $model;
+     
+            $this->middleware('guest')->except('logout');
+            $this->middleware('guest:register')->except('logout');
     }
     /**
      * Display a listing of the resource.
@@ -96,7 +99,7 @@ class RegisterController extends Controller
                 
              
                 $this->RegisterModel->create($data);
-                return view('layouts.frontend.login')->with('added', 'Book added sucessfully!');
+                return redirect('/User');
     }
 
     /**

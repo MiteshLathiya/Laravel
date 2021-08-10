@@ -5,10 +5,10 @@
                                                 "slidesToShow": 1,
                                                 "dots":true
                                                 }'>
-        <div class="single-slide bg-image  bg-overlay--dark" data-bg="image/bg-images/home-3-slider-1.jpg">
+        <div class="single-slide bg-image  bg-overlay--dark" data-bg="{{ asset ('style/frontend') }}/image/bg-images/wp5608277.jpg">
             <div class="container">
                 <div class="home-content text-center">
-                    <div class="row justify-content-end">
+                    <div class="row justify-content-start">
                         <div class="col-lg-6">
                             <h1>Beautifully Designed</h1>
                             <h2>Cover up front of book and
@@ -21,10 +21,10 @@
                 </div>
             </div>
         </div>
-        <div class="single-slide bg-image  bg-overlay--dark" data-bg="image/bg-images/home-3-slider-2.jpg">
+        <div class="single-slide bg-image  bg-overlay--dark" data-bg="{{ asset ('style/frontend') }}/image/bg-images/671822c2f63dd5f65d8fd15c9710420b.jpg">
             <div class="container">
                 <div class="home-content pl--30">
-                    <div class="row">
+                    <div class="row justify-content-center">
                         <div class="col-lg-6">
                             <h1>I Love This Idea!</h1>
                             <h2>Cover up front of book and

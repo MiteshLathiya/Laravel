@@ -13,7 +13,6 @@ class LoginController extends Controller
     {
             $this->middleware('guest')->except('logout');
             $this->middleware('guest:register')->except('logout');
-            
     }
     /**
      * Display a listing of the resource.
@@ -94,17 +93,21 @@ class LoginController extends Controller
 
 
         if (Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
-
+        //   $m=Auth::guard('register')->user()->id;
+        //     dd($m);
+            // $request->session()->put('user', $request->input());
             return redirect()->intended('/');
-        }
-     else {
+        } else {
             return redirect()->back()->withErrors(
                 [
                  'loginfailed' => 'Please check your email and password!'
                 ]
             );
         }
-        return back()->withInput($request->only('email', 'remember'));
+     
+  
+
+        // return back()->withInput($request->only('email', 'remember'));
 
         // if (Auth::attempt($user_data)) {
         //     $request->session()->put('data', $request->input());
@@ -127,5 +130,11 @@ class LoginController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::guard('register')->logout();
+        return redirect('/');
     }
 }

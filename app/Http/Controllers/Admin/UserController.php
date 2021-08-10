@@ -149,8 +149,8 @@ class UserController extends Controller
             );
 
                 $data=array(
-                    'password'=>$request->cn,
-                    'password' => Hash::make($request->pass)
+                    // 'password'=>$request->cn,
+                    'password' => Hash::make($request->cpass)
                     );
             
                 // $data = $request->all();

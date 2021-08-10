@@ -17,13 +17,23 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-Route::get('/', 'Frontend\IndexController@index');
+
+//frontend
+Route::get('/', 'Frontend\IndexController@show');
 
 Route::get('/Register', 'Frontend\RegisterController@index');
 Route::post('/Register/User', 'Frontend\RegisterController@store');
-Route::get('/User', 'Frontend\LoginController@index');
+Route::get('/User', 'Frontend\LoginController@index')->name('User');
 Route::post('/UserLogin', 'Frontend\LoginController@userlogin');
+Route::get('/UserLogout', 'Frontend\LoginController@logout');
 
+Route::get('/UserProfile', 'Frontend\UserController@index')->name('userprofile');
+Route::post('/EditUser', 'Frontend\UserController@update');
+
+Route::post('/AddToCart', 'Frontend\CartController@index');
+
+
+//admin side
 
 Route::get('/Admin', 'Admin\LoginController@index');
 Route::post('/Login', 'Admin\LoginController@adminlogin');

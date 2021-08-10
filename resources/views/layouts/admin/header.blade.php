@@ -197,7 +197,8 @@
             <li class="dropdown">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                     <!-- <img alt="" src="images/2.png"> -->
-                    <span class="username">&nbsp;&nbsp;&nbsp;&nbsp;{{session('data')['email']}}</span>
+                    <span class="username">&nbsp;&nbsp;&nbsp;&nbsp;{{ Auth::user()->name }}</span>
+               
                     <!-- <b class="caret"></b> -->
                 </a>
                 <ul class="dropdown-menu extended logout">

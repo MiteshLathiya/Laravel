@@ -72,7 +72,7 @@ class BookController extends Controller
 
         $img=$request->file('img');
         $filename=rand(). '.'.$img->getClientOriginalExtension();
-        $img->move(public_path('bookimage'), $filename);
+        $img->move(public_path('style/frontend/image/products'), $filename);
 
         $data=array(
              
@@ -118,8 +118,8 @@ class BookController extends Controller
                                     ->orWhere('price', 'LIKE', '%'.$search.'%')
                                     ->sortable()
                                     ->paginate($limit);
-     
-     
+
+  
         return view('layouts.admin.viewbook', ['data'=>$data]);
     }
 
@@ -135,9 +135,8 @@ class BookController extends Controller
     {
          $data = $this->BookModel->find($id);
 
-  
-       
-        return view('layouts.admin.editbook')->with('data', $data);
+
+         return view('layouts.admin.editbook', ['data'=>$data]);
     }
 
     /**
@@ -178,7 +177,7 @@ class BookController extends Controller
         $img=$request->file('img');
         if ($img !== null) {
             $filename=rand(). '.'.$img->getClientOriginalExtension();
-            $img->move(public_path('bookimage'), $filename);
+            $img->move(public_path('style/frontend/image/products'), $filename);
             $data=array(
                 'image'=>$filename
             );
@@ -226,10 +225,10 @@ class BookController extends Controller
         return redirect()->route('dashboard.viewbook')->with('delete', 'Book deleted sucessfully!');
     }
 
-    public function pagination()
-    {
-        $booksdata = BookModel::paginate(5);
+    // public function pagination()
+    // {
+    //     $booksdata = BookModel::paginate(5);
 
-        return view('layouts.admin.viewbook')->with('data', $booksdata);
-    }
+    //     return view('layouts.admin.viewbook')->with('data', $booksdata);
+    // }
 }

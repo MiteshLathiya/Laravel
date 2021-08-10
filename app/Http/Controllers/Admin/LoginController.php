@@ -42,7 +42,7 @@ class LoginController extends Controller
         //    dd($user_data); exit;
 
         if (Auth::attempt($user_data)) {
-            $request->session()->put('data', $request->input());
+                // $request->session()->put('data', $request->input());
              // $minutes = 60;
                
                 
