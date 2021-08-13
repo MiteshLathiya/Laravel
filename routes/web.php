@@ -31,6 +31,8 @@ Route::get('/UserProfile', 'Frontend\UserController@index')->name('userprofile')
 Route::post('/EditUser', 'Frontend\UserController@update');
 
 Route::get('/ViewCart/{id}', 'Admin\BookController@showproduct')->name('viewcart');
+Route::post('/Cart', 'Admin\CartController@store');
+
 
 
 //admin side

@@ -228,7 +228,7 @@ class BookController extends Controller
     {
         $data = $this->BookModel->find($id);
       
-        return view('layouts.frontend.product_details')->with('data', $data);
+        return view('layouts.frontend.product-details')->with('data', $data);
     }
     // public function pagination()
     // {

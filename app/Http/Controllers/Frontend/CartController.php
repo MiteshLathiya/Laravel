@@ -41,7 +41,11 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $uid=$request->userid;
+        dd($uid);
+        $pid=$request->pid;
+        $uid=$request->userid;
+        $uid=$request->userid;
     }
 
     /**

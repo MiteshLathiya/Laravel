@@ -56,9 +56,9 @@
                         <div class="product-card">
                             <div class="product-header">
                                 <a href="#" class="author">
-                                    {{ $books->name }}
+                                    {{ $books->author }}
                                 </a>
-                                <h3><a href="product-details.html"> {{ $books->author }}</a>
+                                <h3><a href="product-details.html"> {{ $books->name }}</a>
                                 </h3>
                             </div>
                             <div class="product-card--body">

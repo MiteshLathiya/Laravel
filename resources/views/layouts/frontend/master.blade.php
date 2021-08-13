@@ -7,6 +7,7 @@
     <title>Pustok - Book Store HTML Template</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Use Minified Plugins Version For Fast Page Load -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset ('style/frontend') }}/css/plugins.css" />
     <link rel="stylesheet" type="text/css" media="screen" href="{{ asset ('style/frontend') }}/css/main.css" />
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset ('style/frontend') }}/image/favicon.ico">
