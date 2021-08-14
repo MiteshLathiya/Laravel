@@ -39,7 +39,7 @@
                                     <div class="form-group ">
                                         <label for="firstname" class="control-label col-lg-3">Image</label>
                                         <div class="col-lg-6">
-                                        <img style="width:200;height:150px" src="{{ asset('bookimage/'.$data->image) }}"></a>
+                                        <img style="width:200;height:150px" src="{{ asset('style/frontend/image/products/'.$data->image) }}"></a>
                                         <input class="form-control" name="img" type="file" >   
                                         @error('img')
                                             <div class="alert alert-danger">{{ $message }}</div>

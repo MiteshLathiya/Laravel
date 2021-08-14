@@ -38,14 +38,14 @@
                         <div class="login-block">
             
                             @if (Auth::guard('register')->check())
-                            <div class="main-navigation flex-lg-right" style="margin-top: -55px">
+                            <div class="main-navigation flex-lg-right" style="margin-top: 15px">
                                 <ul class="main-menu menu-right li-last-0">
                                     <li class="menu-item has-children">
-                                        <a href="javascript:void(0)">  
+                                       
                                            
 
-                                            <a style="font-size: 18px;" >{{ Auth::guard('register')->user()->firstname }}
-                                            <i class="fas fa-chevron-down dropdown-arrow"></i></a>
+                                          <span style="font-size: 13px;">Profile :-<a  href="javascript:void(0)" style="font-size: 15px;" >{{ Auth::guard('register')->user()->firstname }}
+                                            <i class="fas fa-chevron-down dropdown-arrow"></i></a></span>
                                                          
                                         <ul class="sub-menu">
                                             <li>  <a href="{{ ('/UserProfile')}}" class="font-weight-bold">Edit Profile</a><br></li>
@@ -65,7 +65,7 @@
 
                          
                            
-                        
+                        @if (Auth::guard('register')->check())
                         <div class="cart-block">
                             <div class="cart-total">
                                 <span class="text-number">
@@ -75,27 +75,15 @@
                                     Shopping Cart
                                 </span>
                                 <span class="price">
-                                    £0.00
+                                    Rs.0.00
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </div>
-                            <div class="cart-dropdown-block">
-                                <div class=" single-cart-block ">
-                                    <div class="cart-product">
-                                        <a href="product-details.html" class="image">
-                                            <img src="image/products/cart-product-1.jpg" alt="">
-                                        </a>
-                                        <div class="content">
-                                            <h3 class="title"><a href="product-details.html">Kodak PIXPRO
-                                                    Astro Zoom AZ421 16 MP</a></h3>
-                                            <p class="price"><span class="qty">1 ×</span> £87.34</p>
-                                            <button class="cross-btn"><i class="fas fa-times"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
+                            <div class="cart-dropdown-block" style="margin-top: -20px;">
+                                
                                 <div class=" single-cart-block ">
                                     <div class="btn-block">
-                                        <a href="cart.html" class="btn">View Cart <i
+                                        <a href="{{ ('\CartView') }}" class="btn">View Cart <i
                                                 class="fas fa-chevron-right"></i></a>
                                         <a href="checkout.html" class="btn btn--primary">Check Out <i
                                                 class="fas fa-chevron-right"></i></a>
@@ -103,6 +91,8 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+
                     </div>
                  
                 </div>
@@ -316,7 +306,7 @@
                             </ul>
                         </li>
                         <!-- Blog -->
-                        <li class="menu-item has-children mega-menu">
+                        {{-- <li class="menu-item has-children mega-menu">
                             <a href="javascript:void(0)">Blog <i
                                     class="fas fa-chevron-down dropdown-arrow"></i></a>
                             <ul class="sub-menu three-column">
@@ -348,9 +338,12 @@
                                     </ul>
                                 </li>
                             </ul>
-                        </li>
+                        </li> --}}
                         <li class="menu-item">
                             <a href="contact.html">Contact</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ ('/Admin') }}">Admin</a>
                         </li>
                     </ul>
                 </div>

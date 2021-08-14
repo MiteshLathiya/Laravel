@@ -12,4 +12,5 @@ class CartModel extends Model
       ];
 
     protected $table='carts';
+    protected $primaryKey = 'cart_id';
 }

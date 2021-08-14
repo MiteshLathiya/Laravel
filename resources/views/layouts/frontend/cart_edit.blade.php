@@ -2,6 +2,7 @@
 @include('layouts.frontend.header')
 <style>
  hr.style-eight {
+     margin-left: -450px;
 height: 10px;
 border: 1;
 box-shadow: inset 0 9px 9px -3px rgba(11, 99, 184, 0.8);
@@ -27,7 +28,7 @@ border-radius: 5px;
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="{{ ('/') }}">Home</a></li>
-                    <li class="breadcrumb-item active">Cart</li>
+                    <li class="breadcrumb-item active">Cart Edit</li>
                 </ol>
             </nav>
         </div>
@@ -52,111 +53,84 @@ border-radius: 5px;
     <center>{{ session()->get('update') }}<center>
 </div>
 @endif
-@if(session()->has('added'))
-<div class="alert alert-success" style="font-size: 16px;">
-    <center>{{ session()->get('added') }}<center>
-</div>
-@endif
 
 <!-- Cart Page Start -->
-<main class="cart-page-main-block inner-page-sec-padding-bottom">
+<main class="cart-page-main-block inner-page-sec-padding-bottom" style="margin-left: 450px;">
     <div class="cart_area cart-area-padding  ">
         <div class="container">
             <div class="page-section-title">
-                <h1>Shopping Cart</h1>
+                <h1>Update Cart</h1>
+                <hr class="style-eight" />
             </div>
             <div class="row">
                 <div class="col-12">
-                    <form action="#" class="">
-                        <!-- Cart Table -->
-                        <div class="cart-table table-responsive mb--40" style="width:110%;margin-left:-30px;">
-                            <table class="table" >
-                                <!-- Head Row -->
-                                <thead>
-                                    <tr>
-                                        <th class="pro-edit">Edit</th>
-                                        <th class="pro-remove">Delete</th>
-                                        <th class="pro-thumbnail">Image</th>
-                                        <th class="pro-title">Product</th>
-                                        <th class="pro-price">Price</th>
-                                        <th class="pro-quantity">Quantity</th>
-                                        <th class="pro-subtotal">Total</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <form action="{{ ('/UpdateCart') }}" method="post">
-                                  @foreach ($data as $product)
-                                      
-                                    <!-- Product Row -->
-                                    <tr>
-                                        {{-- <a href="#" data-toggle="modal" data-target="#quickModal"
-                                        class="single-btn">
-                                        <i class="fas fa-eye"></i>
-                                    </a> --}}
-                                        <td class="pro-edit"><a href="{{ route('editcartview',$product->cart_id) }}"><i class="fa fa-edit"></i></a>
-                                        </td>
-                                        <td class="pro-remove"><a href="{{ route('deletecart',$product->cart_id) }}"><i class="far fa-trash-alt"></i></a>
-                                        </td>
-                                       
-                                    
-                                        <td class="pro-thumbnail"><a href="#"> <img src="{{ asset('style/frontend/image/products/'.$product->image) }}" alt="Product"></a></td>
-                                       
-                                        <td class="pro-title"><span>{{ $product->productname }}</span></td>
-                                        <td class="pro-price"><input type="text"  name="price" value="{{ $product->price }}" readonly style="border:none;margin-left: 100px"></td>
-                                       
-                                        <td class="pro-quantity">
-                                            <div class="pro-qty">
-                                                <div class="count-input-block">
-                                                    <input type="number" name="qty" class="form-control text-center"
-                                                        value="{{ $product->qty }}" readonly>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="pro-subtotal"><span> Rs.<label id="subtot">{{ $a=$product->subtotal }}</label></span></td>
-                                        {{-- @php
-                                        $r=0;
-                                        $r = $r+$product->subtotal
-                                     {{ $r }}
-                                   @endphp --}}
-                                  
-                                    </tr>
-                               
-                                    @endforeach
-                                    <!-- Product Row -->
-                                   
-                                    <!-- Discount Row  -->
-                                    {{-- <tr>
-                                        <td colspan="6" class="actions">
-                                            {{-- <div class="coupon-block">
-                                                <div class="coupon-text">
-                                                    <label for="coupon_code">Coupon:</label>
-                                                    <input type="text" name="coupon_code" class="input-text"
-                                                        id="coupon_code" value="" placeholder="Coupon code">
-                                                </div>
-                                                <div class="coupon-btn">
-                                                    <input type="submit" class="btn btn-outlined"
-                                                        name="apply_coupon" value="Apply coupon">
-                                                </div>
-                                            </div> --}}
-                                            {{-- <div class="update-block text-right">
-                                                <input type="submit" class="btn btn-outlined" name="update_cart"
-                                                    value="Update cart">
-                                                <input type="hidden" id="_wpnonce" name="_wpnonce"
-                                                    value="05741b501f"><input type="hidden"
-                                                    name="_wp_http_referer" value="/petmark/cart/">
-                                            </div> --}}
-                                        </td>
-                                    </tr>
-                                </form>
-                                </tbody>
-                            </table>
-                        </div>
-                    </form>
+                    <div class="product-details-info pl-lg--30 ">
+                        @foreach ($data as $product)
+                        <form method="post" action="{{ ('/UpdateCart') }}" style="margin-left: -150px;border: none" class="form-control">
+                                @csrf
+                     
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Product Name :-</label>
+                                <div class="col-sm-10">
+                                  <input type="text" value="{{ $product->productname }}" class="form-control"   style="width: 50%;border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Author :-</label>
+                                <div class="col-sm-10">
+                                  <input  type="text" value="{{ $product->author }}" class="form-control"  style="border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">ISBN Number :-</label>
+                                <div class="col-sm-10">
+                                  <input  type="text" value="{{ $product->ISBN_number }}" class="form-control"  style="border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Pages :-</label>
+                                <div class="col-sm-10">
+                                  <input   type="text" value="{{ $product->pages }}" class="form-control "   style="border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Language :-</label>
+                                <div class="col-sm-10">
+                                  <input  type="text" value="{{ $product->language }}" class="form-control"  style="border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                   
+                            <input type="text" value="{{ $product->cart_id }}" name="cartid"  style="display: none; background-color: white;" readonly>
+                           
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Price :-</label>
+                                <div class="col-sm-10">
+                                    <input type="text" value="{{ $product->price }}" name="price" class="form-control "  style="border: none;font-weight: 900;background-color: white;" readonly>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <label for="colFormLabelSm" class="col-sm-2 col-form-label col-form-label-sm">Quantity :-</label>
+                                <div class="col-sm-10">
+                                  <input type="number" value="{{ $product->qty }}" name="qty" class="form-control " min="1" max="5" style="width: 10%;font-weight: 900;background-color: white;">
+                                </div>
+                            </div>
+                            <div>
+                                <input class="btn btn-outlined btn-primary btn-sm" type="submit" value="Update" style="margin-left: 450px">
+                            </div>
+                            
+                            
+                          </form>
+                       @endforeach
+                       
+                        
+                        
+                      
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="modal fade modal-quick-view" id="quickModal" tabindex="-1" role="dialog"
+                {{-- <div class="modal fade modal-quick-view" id="quickModal" tabindex="-1" role="dialog"
                     aria-labelledby="quickModal" aria-hidden="true" style="width: 60%;margin-left: 250px;margin-top: 30px">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
@@ -169,21 +143,21 @@ border-radius: 5px;
                                 <hr class="style-eight" />
                                 <div class="row">
                                     {{-- <h2>Update Cart</h2> --}}
-                                    <div class="col-lg-7 mt--30 mt-lg--30">
+                                    {{-- <div class="col-lg-7 mt--30 mt-lg--30">
                                        
                                         <div class="product-details-info pl-lg--30 ">
                                            
-                                            Product Name :-<h2 class="product-title"> {{ $product->productname }}</h2>
+                                            Product Name :-<h2 class="product-title"> {{ $data->productname }}</h2>
                                             <ul class="list-unstyled">
                                               
-                                                <li>Author: <span class="list-value"> {{ $product->author }}</span></li>
+                                                <li>Author: <span class="list-value"> {{ $data->author }}</span></li>
                                                 <li>ISBN Code: <span class="list-value"> {{ $product->ISBN_number }}</span></li>
                                                 <li>Pages: <span class="list-value"> {{ $product->pages }}</span></li>
                                                 <li>Language: <span class="list-value"> {{ $product->language }}</span></li>
                                                
                                             </ul>
-<form method="post" action="{{ ('/UpdateCart') }}">
-    @csrf
+                                                <form method="post" action="{{ ('/UpdateCart') }}">
+                    
                                             <div class="price-block">
                                                 <input type="text" value="{{ $product->cart_id }}" name="cartid" style="display: none" readonly>
                                                 <input type="text" value="{{ $product->price }}" name="price" style="border: none" readonly>
@@ -201,15 +175,15 @@ border-radius: 5px;
                                                   
                                                 </div>
                                             </div>
-</form>
+                                                                </form>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                             </div>
                             
                         </div>
                     </div>
-                </div>
+                </div> --}}
     <div class="cart-section-2">
         <div class="container">
             <div class="row">
@@ -435,7 +409,7 @@ border-radius: 5px;
                 </div> --}}
                 <!-- Cart Summary -->
                 
-                <div class="col-lg-12 col-12 d-flex" style="margin-left: 450px">
+                {{-- <div class="col-lg-12 col-12 d-flex" style="margin-left: 450px">
                     <div class="cart-summary">
                         <div class="cart-summary-wrap">
                             <h4><span>Cart Summary</span></h4>
@@ -444,12 +418,12 @@ border-radius: 5px;
                             <h2>Grand Total <span class="text-primary">$1250.00</span></h2>
                         </div>
                         <div class="cart-summary-button">
-                            <a href="{{ ('/PlaceOrder') }}" class="checkout-btn c-btn btn--primary">Order Now</a>
+                            <a href="checkout.html" class="checkout-btn c-btn btn--primary">Checkout</a>
                             <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a>
                             
                         </div>
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </div>

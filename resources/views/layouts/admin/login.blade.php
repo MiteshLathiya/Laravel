@@ -27,7 +27,8 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 <script src="{{ asset ('style/admin') }}/js/jquery2.0.3.min.js"></script>
 </head>
 <body>
-<div class="log-w3">
+<div class="log-w3"><br>
+   
 <div class="w3layouts-main">
 	<h2>Log In Now</h2>
    
@@ -58,7 +59,7 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<div class="clearfix"></div>
 				<input type="submit" value="Log in" name="login">
 		</form>
-		
+        <a href="{{ ('/') }}" style="color: black"><h4><i class="fa fa-arrow-left" aria-hidden="true"></i>&nbsp;&nbsp;Home Page</h4></a>
 </div>
 </div>
 <script src="{{ asset ('style/admin') }}/js/bootstrap.js"></script>

@@ -1,5 +1,17 @@
 @extends('layouts.frontend.master')
 @include('layouts.frontend.header')
+{{-- <script>
+    window.setTimeout(function() {
+        $("div.alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
+    </script>
+@if(session()->has('added'))
+<div class="alert alert-success" style="font-size: 16px;">
+ <center>   {{ session()->get('added') }}<center>
+</div>
+@endif --}}
 @include('layouts.frontend.slider')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <section class="pt--30 section-margin">
@@ -58,7 +70,7 @@
                                 <a href="#" class="author">
                                     {{ $books->author }}
                                 </a>
-                                <h3><a href="product-details.html"> {{ $books->name }}</a>
+                                <h3><a href="{{ route('viewcart',$books->id) }}"> {{ $books->name }}</a>
                                 </h3>
                             </div>
                             <div class="product-card--body">
@@ -69,13 +81,19 @@
                                     {{-- <img src="{{ asset ('style/frontend')}}/image/products/product-1.jpg" alt=""> --}}
                                     <div class="hover-contents">
                                         
-                                        <a href="product-details.html" class="hover-image">
+                                        <a href="{{ route('viewcart',$books->id) }}" class="hover-image">
                                             <img src="{{ asset('style/frontend/image/products/'.$books->image) }}" alt="">
                                         </a>
                                         <div class="hover-btns">
-                                            <a href="{{ route('viewcart',$books->id) }}" class="single-btn">
-                                                <i class="fas fa-shopping-basket"></i>
+                                            @if (Auth::guard('register')->check())
+                                            <a href="{{ route('viewcart',$books->id) }}" class="single-btn">View
+                                                <i class="fas fa-eye"></i>
                                             </a>
+                                            @else
+                                            <a href="{{ ('/User') }}" class="single-btn">View
+                                                <i class="fas fa-eye"></i>
+                                            @endif
+                                            
                                             {{-- <a href="wishlist.html" class="single-btn">
                                                 <i class="fas fa-heart"></i>
                                             </a> --}}
@@ -84,7 +102,7 @@
                                             </a> --}}
                                             {{-- <a href="#" data-toggle="modal" data-target="#quickModal_{{ $books->id }}"
                                                 class="single-btn">
-                                                <i class="fas fa-eye"></i>
+                                               
                                             </a> --}}
                                         </div>
                                     </div>

@@ -6,7 +6,7 @@
         <div class="breadcrumb-contents">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{{ ('/') }}">Home</a></li>
                     <li class="breadcrumb-item active">Product Details</li>
                 </ol>
             </nav>
@@ -27,7 +27,7 @@
       "asNavFor": ".product-slider-nav"
       }'>
                     <div class="single-slide">
-                        <img src="image/products/product-details-1.jpg" alt="">
+                        <img src="{{ asset('style/frontend/image/products/'.$data->image) }}" alt="">
                     </div>
                     <div class="single-slide">
                         <img src="image/products/product-details-2.jpg" alt="">
@@ -55,7 +55,7 @@
       "focusOnSelect": true
       }'>
                     <div class="single-slide">
-                        <img src="image/products/product-details-1.jpg" alt="">
+                        <img src="{{ asset('style/frontend/image/products/'.$data->image) }}" alt="">
                     </div>
                     <div class="single-slide">
                         <img src="image/products/product-details-2.jpg" alt="">
@@ -71,20 +71,27 @@
                     </div>
                 </div>
             </div>
+           
             <div class="col-lg-7">
+                <form method="post" action="{{ ('/AddToCart') }}">
+                    @csrf
+                @if (Auth::guard('register')->check())
+                <input type="text" value="{{  Auth::guard('register')->user()->id  }}" name="userid" style="display: none;">
+                @endif
+                <input type="text" value="{{ $data->id }}" name="pid" style="display: none;">
                 <div class="product-details-info pl-lg--30 ">
-                    <p class="tag-block">Tags: <a href="#">Movado</a>, <a href="#">Omega</a></p>
-                    <h3 class="product-title">Beats EP Wired On-Ear Headphone-Black</h3>
+                    <p class="tag-block">Category: <a href="#"><input type="text" value="{{ $data->category }}" name="cat" style="border: none"   readonly> </a>
+                    <h3 class="product-title"><input type="text" value="{{ $data->name }}" name="nm" style="border: none" readonly></h3>
                     <ul class="list-unstyled">
-                        <li>Ex Tax: <span class="list-value"> £60.24</span></li>
-                        <li>Brands: <a href="#" class="list-value font-weight-bold"> Canon</a></li>
-                        <li>Product Code: <span class="list-value"> model1</span></li>
-                        <li>Reward Points: <span class="list-value"> 200</span></li>
+                      
+                        <li>Author: <a href="#" class="list-value font-weight-bold"> <input type="text" value="{{ $data->author }}" name="author" style="border: none" readonly></a></li>
+                        <li>ISBN Code: <span class="list-value"><input type="text" value="{{ $data->ISBN_number }}" name="isbn" style="border: none" readonly> </span></li>
+                      
                         <li>Availability: <span class="list-value"> In Stock</span></li>
                     </ul>
                     <div class="price-block">
-                        <span class="price-new">£73.79</span>
-                        <del class="price-old">£91.86</del>
+                        <span class="price-new"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<input type="text" value="{{ $data->price }}" name="price" style="border: none" readonly></span>
+                       
                     </div>
                     <div class="rating-widget">
                         <div class="rating-block">
@@ -99,28 +106,25 @@
                             <a href="#">Write a review</a>
                         </div>
                     </div>
-                    <article class="product-details-article">
-                        <h4 class="sr-only">Product Summery</h4>
-                        <p>Long printed dress with thin adjustable straps. V-neckline and wiring under the Dust
-                            with ruffles at the bottom of the
-                            dress.</p>
-                    </article>
+                    
                     <div class="add-to-cart-row">
                         <div class="count-input-block">
                             <span class="widget-label">Qty</span>
-                            <input type="number" class="form-control text-center" value="1">
+                            <input type="number" class="form-control text-center" value="1" min="1" max="5" name="qty" style="border: none">
                         </div>
                         <div class="add-cart-btn">
-                            <a href="#" class="btn btn-outlined--primary"><span class="plus-icon">+</span>Add to
-                                Cart</a>
+                            <input type="submit" value="+  Add to Cart" class="btn btn-outlined--primary">
+                                </a>
                         </div>
                     </div>
-                    <div class="compare-wishlist-row">
+                    {{-- <div class="compare-wishlist-row">
                         <a href="#" class="add-link"><i class="fas fa-heart"></i>Add to Wish List</a>
                         <a href="#" class="add-link"><i class="fas fa-random"></i>Add to Compare</a>
-                    </div>
+                    </div> --}}
                 </div>
+            </form>
             </div>
+           
         </div>
         <div class="sb-custom-tab review-tab section-padding">
             <ul class="nav nav-tabs nav-style-2" id="myTab2" role="tablist">
@@ -141,21 +145,7 @@
                 <div class="tab-pane fade show active" id="tab-1" role="tabpanel" aria-labelledby="tab1">
                     <article class="review-article">
                         <h1 class="sr-only">Tab Article</h1>
-                        <p>Fashion has been creating well-designed collections since 2010. The brand offers
-                            feminine designs delivering
-                            stylish
-                            separates and statement dresses which have since evolved into a full ready-to-wear
-                            collection in which every
-                            item is
-                            a
-                            vital part of a woman's wardrobe. The result? Cool, easy, chic looks with youthful
-                            elegance and unmistakable
-                            signature
-                            style. All the beautiful pieces are made in Italy and manufactured with the greatest
-                            attention. Now Fashion
-                            extends
-                            to
-                            a range of accessories including shoes, hats, belts and more!</p>
+                        <p>{{ $data->description }}</p>
                     </article>
                 </div>
                 <div class="tab-pane fade" id="tab-2" role="tabpanel" aria-labelledby="tab2">
@@ -233,22 +223,25 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="tab-product-details">
-<div class="brand">
-<img src="image/others/review-tab-product-details.jpg" alt="">
-</div>
-<h5 class="meta">Reference <span class="small-text">demo_5</span></h5>
-<h5 class="meta">In stock <span class="small-text">297 Items</span></h5>
-<section class="product-features">
-<h3 class="title">Data sheet</h3>
-<dl class="data-sheet">
-<dt class="name">Compositions</dt>
-<dd class="value">Viscose</dd>
-<dt class="name">Styles</dt>
-<dd class="value">Casual</dd>
-<dt class="name">Properties</dt>
-<dd class="value">Maxi Dress</dd>
-</dl>
-</section>
-</div> -->
+                        <!-- <div class="tab-product-details">
+                <div class="brand">
+                <img src="image/others/review-tab-product-details.jpg" alt="">
+                </div>
+                <h5 class="meta">Reference <span class="small-text">demo_5</span></h5>
+                <h5 class="meta">In stock <span class="small-text">297 Items</span></h5>
+                <section class="product-features">
+                <h3 class="title">Data sheet</h3>
+                <dl class="data-sheet">
+                <dt class="name">Compositions</dt>
+                <dd class="value">Viscose</dd>
+                <dt class="name">Styles</dt>
+                <dd class="value">Casual</dd>
+                <dt class="name">Properties</dt>
+                <dd class="value">Maxi Dress</dd>
+                </dl>
+                </section>
+                </div> -->
     </div>
+</div>
+    <br><br><br><br><br>
+    @include('layouts.frontend.footer')

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\CartModel;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -41,11 +43,20 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
-        $uid=$request->userid;
-        dd($uid);
-        $pid=$request->pid;
-        $uid=$request->userid;
-        $uid=$request->userid;
+        $data=array(
+            
+        'user_id'=>$request->userid,
+        'product_id'=>$request->pid,
+        'productname'=>$request->nm,
+        'ISBN_number'=>$request->isbn,
+        'qty'=>$request->qty,
+        'price'=>$request->price,
+        'subtotal'=>$request->qty*$request->price,
+            );
+
+            $this->CartModel->create($data);
+            return redirect()->route('cartview')->with('success', 'Cart Added Succesfully!');
+           
     }
 
     /**
@@ -54,10 +65,28 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        
-       
+    public function show(Request $request)
+    {       
+          
+           
+            if (Auth::guard('register')->check()) {
+                $id=Auth::guard('register')->user()->id; 
+            } 
+           
+          $data= $this->CartModel->select()
+          ->join('registers','registers.id','=','user_id')
+          ->join('books','books.id','=','product_id')
+          ->where('user_id', $id)
+          ->get();
+          
+        //  $total= CartModel::where('user_id', $id)->sum('subtotal');
+        //  dd($data);
+           
+        //   $data=DB::table('carts')->select()->where('carts.user_id', '=', $id)->get();
+        //   DB::table('users')
+         
+          return view('layouts.frontend.cart')->with('data', $data);
+          
     }
 
     /**
@@ -68,7 +97,17 @@ class CartController extends Controller
      */
     public function edit($id)
     {
-        //
+       
+        $data= $this->CartModel->select()
+        ->join('registers','registers.id','=','user_id')
+        ->join('books','books.id','=','product_id')
+        ->where('cart_id', '=', $id)
+        ->get();
+        
+
+      
+
+        return view('layouts.frontend.cart_edit')->with('data', $data);
     }
 
     /**
@@ -78,9 +117,30 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $id = $request->id;
+      
+       
+
+        $id=$request->cartid;
+
+        $cartid = $this->CartModel->find($id);
+
+        $data=array(
+           
+        'price'=>$pr=$request->price,
+        'qty'=>$qty=$request->qty,  
+       
+        'subtotal'=>$pr*$qty,
+        );
+
+        // $dataid=$request->
+        $cartid->fill($data)->save();
+        
+
+        return redirect()->route('cartview')->with('update', 'Cart update sucessfully!');
+
     }
 
     /**
@@ -91,6 +151,8 @@ class CartController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $this->CartModel->destroy($id);
+
+        return redirect()->route('cartview')->with('delete', 'Product deleted sucessfully!');
     }
 }

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 
 
 //frontend
-Route::get('/', 'Frontend\IndexController@show');
+Route::get('/', 'Frontend\IndexController@show')->name('home');
 
 Route::get('/Register', 'Frontend\RegisterController@index');
 Route::post('/Register/User', 'Frontend\RegisterController@store');
@@ -31,7 +31,12 @@ Route::get('/UserProfile', 'Frontend\UserController@index')->name('userprofile')
 Route::post('/EditUser', 'Frontend\UserController@update');
 
 Route::get('/ViewCart/{id}', 'Admin\BookController@showproduct')->name('viewcart');
-Route::post('/Cart', 'Admin\CartController@store');
+Route::post('/AddToCart', 'Frontend\CartController@store');
+Route::get('/CartView', 'Frontend\CartController@show')->name('cartview');
+
+Route::get('/EditCartView/{id}', 'Frontend\CartController@edit')->name('editcartview');
+Route::post('/UpdateCart', 'Frontend\CartController@update');
+Route::get('/DeleteCart/{id}', 'Frontend\CartController@destroy')->name('deletecart');
 
 
 
