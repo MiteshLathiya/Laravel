@@ -102,6 +102,47 @@ class RegisterController extends Controller
                 return redirect('/User');
     }
 
+    public function OrderDetail(Request $request)
+    {
+        $messages = [
+         
+            'addr.required' => 'Please insert Address!',
+            'pcode.required' => 'Please insert Post Code!',
+            'ct.required' => 'Please select City!',
+            'st.required' => 'Please select State !',
+           
+            'payment.required' => 'Please select Payment Type!',
+            
+        ];
+
+        $request->validate(
+            [
+              
+                'addr'=>'required|string',
+                'pcode'=>'required|string',
+                'ct'=>'required|string',
+                'st'=>'required|string',         
+                'payment'=>'required',
+             
+            ],
+            $messages
+        );
+
+            $data=array(   
+               
+                'address'=>$request->addr,
+                'postcode'=>$request->pcode,
+                'city'=>$request->ct,
+                'state'=>$request->st,
+                'payment'=>$request->payment,
+               
+                );
+                
+             
+                $this->RegisterModel->create($data);
+                return view('layouts.frontend.cart');
+    }
+
     /**
      * Display the specified resource.
      *

@@ -79,13 +79,13 @@ class CartController extends Controller
           ->where('user_id', $id)
           ->get();
           
-        //  $total= CartModel::where('user_id', $id)->sum('subtotal');
-        //  dd($data);
+         $total= CartModel::where('user_id', $id)->sum('subtotal');
+        //  dd($total);
            
         //   $data=DB::table('carts')->select()->where('carts.user_id', '=', $id)->get();
         //   DB::table('users')
          
-          return view('layouts.frontend.cart')->with('data', $data);
+          return view('layouts.frontend.cart')->with('data', $data)->with('total', $total);
           
     }
 

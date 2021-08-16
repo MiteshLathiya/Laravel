@@ -38,6 +38,8 @@ Route::get('/EditCartView/{id}', 'Frontend\CartController@edit')->name('editcart
 Route::post('/UpdateCart', 'Frontend\CartController@update');
 Route::get('/DeleteCart/{id}', 'Frontend\CartController@destroy')->name('deletecart');
 
+Route::get('/PlaceOrder', 'Frontend\OrderController@index');
+Route::post('/OrderCart', 'Frontend\OrderController@store');
 
 
 //admin side

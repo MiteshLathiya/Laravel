@@ -21,6 +21,9 @@ class CreateOrdersTable extends Migration
 
             $table->foreign('user_id')->references('id')->on('registers');
             $table->foreign('product_id')->references('id')->on('books');
+            
+            
+            $table->integer('quantity');
             $table->string('grandtotal');
             $table->string('status')->default('pending');
             $table->timestamps();
