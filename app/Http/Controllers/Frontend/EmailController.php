@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\EmailModel;
 use Mail;
+use Illuminate\Support\Facades\Auth;
+// use App\Models\Frontend\CartModel;
+use App\Models\Frontend\OrderModel;
 
 class EmailController extends Controller
 {
@@ -87,24 +90,38 @@ class EmailController extends Controller
 
     public function sendmail(Request $request)
     {
+
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
+           
+          $data= OrderModel::select()
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('user_id', $id)
+          ->get();
+
+          
+       
+
         $request->validate([
             'email' => 'required|email',
             'subject' => 'required',
             'content' => 'required',
           ]);
   
-          $data = [
-            'subject' => $request->subject,
-            'email' => $request->email,
-            'content' => $request->content
-          ];
+        //   $data = [
+        //     'subject' => $request->subject,
+        //     'email' => $request->email,
+        //     'content' => $request->content
+        //   ];
   
-          Mail::send('email-template', $data, function ($message) use ($data) {
-            $message->to($data['email'])
-            ->subject($data['subject']);
-          });
+        //   Mail::send('email-template', $data, function ($message) use ($data) {
+        //     $message->to($data['email'])
+        //     ->subject($data['subject']);
+        //   });
   
-          return back()->with(['message' => 'Email successfully sent!']);
+          return view('layouts.frontend.email')->with('data' , $data);
     }
 }
-}
+

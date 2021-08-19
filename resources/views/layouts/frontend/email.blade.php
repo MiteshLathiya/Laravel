@@ -1,22 +1,6 @@
 @extends('layouts.frontend.master')
-<!DOCTYPE html>
-<html lang="zxx">
+@include('layouts.frontend.header')
 
-
-<!-- Mirrored from demo.hasthemes.com/pustok-preview/pustok/order-complete.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Feb 2021 12:07:38 GMT -->
-<head>
-	<meta charset="utf-8" />
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Pustok - Book Store HTML Template</title>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Use Minified Plugins Version For Fast Page Load -->
-	<link rel="stylesheet" type="text/css" media="screen" href="css/plugins.css" />
-	<link rel="stylesheet" type="text/css" media="screen" href="css/main.css" />
-	<link rel="shortcut icon" type="image/x-icon" href="image/favicon.ico">
-</head>
-
-<body>
-	<div class="site-wrapper" id="top">
 		
 	
 		
@@ -90,18 +74,6 @@
 			</div>
 		</section>
 		<!-- order complete Page End -->
-	</div>
-	<!--=================================
-  Brands Slider
-===================================== -->
-	
-	
-	<!-- Use Minified Plugins Version For Fast Page Load -->
-	<script src="js/plugins.js"></script>
-	<script src="js/ajax-mail.js"></script>
-	<script src="js/custom.js"></script>
-</body>
+		@include('layouts.frontend.footer')
 
-
-<!-- Mirrored from demo.hasthemes.com/pustok-preview/pustok/order-complete.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 04 Feb 2021 12:07:39 GMT -->
-</html>
+	

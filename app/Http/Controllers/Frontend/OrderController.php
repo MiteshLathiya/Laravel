@@ -129,7 +129,7 @@ class OrderController extends Controller
                             
                         // dd($data);
                          
-                            return redirect('/EmailView');
+                            return redirect('/Email');
     }
 
     /**
