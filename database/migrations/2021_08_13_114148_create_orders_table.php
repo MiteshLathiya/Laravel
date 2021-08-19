@@ -22,9 +22,15 @@ class CreateOrdersTable extends Migration
             $table->foreign('user_id')->references('id')->on('registers');
             $table->foreign('product_id')->references('id')->on('books');
             
+            $table->text('address')->nullable();
+            $table->integer('postcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
             
             $table->integer('quantity');
             $table->string('grandtotal');
+          
+            $table->string('payment');
             $table->string('status')->default('pending');
             $table->timestamps();
         });

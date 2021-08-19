@@ -8,9 +8,8 @@ class OrderModel extends Model
 {
     protected $fillable=[
 
-        'user_id','product_id','quantity','grandtotal'
+        'user_id','product_id','address','postcode','city','state','quantity','grandtotal','payment'
       ];
 
     protected $table='orders';
-   
 }

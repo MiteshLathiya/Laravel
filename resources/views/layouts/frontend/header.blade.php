@@ -69,7 +69,12 @@
                         <div class="cart-block">
                             <div class="cart-total">
                                 <span class="text-number">
-                                    1
+                                    @if(session()->has('count'))
+                                   {{  session()->get('count')}}
+                                @else 
+                                
+                                @endif
+                                   
                                 </span>
                                 <span class="text-item">
                                     Shopping Cart

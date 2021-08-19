@@ -17,13 +17,13 @@ class CreateRegistersTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
-            $table->string('email')->unique();;
+            $table->string('email')->unique();
             $table->string('mobile');
-            $table->text('address')->nullable();;
-            $table->integer('postcode')->nullable();;
-            $table->string('city')->nullable();;
-            $table->string('state')->nullable();;
-            $table->string('payment')->nullable();;
+            $table->text('address')->nullable();
+            $table->integer('postcode')->nullable();
+            $table->string('city')->nullable();
+            $table->string('state')->nullable();
+        
             $table->string('password');
             $table->timestamps();
         });

@@ -84,10 +84,24 @@ border-radius: 5px;
                                     </tr>
                                 </thead>
                                 <tbody>
+                               
+
                                     <form action="{{ ('/OrderCart') }}" method="post">
                                         @csrf
-                                  @foreach ($data as $product)
-                                  <input type="text" value=" {{ $product->product_id }}" name="total" style="display: none">
+                                       
+                                            
+                                {{-- @empty($product)     
+                                <tr>
+                                    <td colspan="7">
+                                        <p class="bg-primary text-white p-1" >no product</p>  
+                                    </td>
+                                </tr>  
+                                  
+                                    @else   --}}
+                                   
+
+                                    @forelse($data as $product)
+                                    <input type="text" value=" {{ $product->product_id }}" name="total" style="display: none">
                                     <!-- Product Row -->
                                     {{-- <input type="text" value=" {{ $product->firstname }}" name="total"> --}}
                                    
@@ -116,6 +130,7 @@ border-radius: 5px;
                                             </div>
                                         </td>
                                         <td class="pro-subtotal"><span> Rs.<label id="subtot">{{ $a=$product->subtotal }}</label></span></td>
+                                       
                                         {{-- @php
                                         $r=0;
                                         $r = $r+$product->subtotal
@@ -123,11 +138,26 @@ border-radius: 5px;
                                    @endphp --}}
                                   
                                     </tr>
-                               
-                                    @endforeach
-                                    <!-- Product Row -->
                                     <input type="number" name="userid" class="form-control text-center"
                                     value="{{ $product->user_id }}" style="display: none">
+                                @empty
+                                <tr>
+                                    <td colspan="7">
+                                        <p class="bg-primary text-white p-1" >no product</p>  
+                                    </td>
+                                </tr>  
+                                @endforelse
+
+                                
+                                    {{-- @foreach ($data as $product)
+                                    
+                                      @endforeach --}}
+                                     
+                                      <!-- Product Row -->
+                                      
+                                     
+                                   
+                                    {{-- @endempty   --}}
                                     <!-- Discount Row  -->
                                     {{-- <tr>
                                         <td colspan="6" class="actions">
@@ -390,13 +420,16 @@ border-radius: 5px;
                     <div class="cart-summary">
                         <div class="cart-summary-wrap">
                             <h4><span>Cart Summary</span></h4>
+                            @if ($total==!null)
+                                
+                           
                             <p>Sub Total <span class="text-primary">RS.{{ $total }}</span></p>
                             <p>Shipping Cost <span class="text-primary">Rs.00</span></p>
                             <input type="text" value="{{ $total }}" name="total" style="display: none">
                             
                            
                             <h2>Grand Total <span class="text-primary">Rs.{{ $total }}</span></h2>
-                       
+                            @endif
                         </div>
                         <div class="cart-summary-button">
                             {{-- <input type="submit" class="checkout-btn c-btn btn--primary" value="Order Now"> --}}

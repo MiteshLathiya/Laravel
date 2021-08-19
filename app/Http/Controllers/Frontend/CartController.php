@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\CartModel;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -56,7 +56,6 @@ class CartController extends Controller
 
             $this->CartModel->create($data);
             return redirect()->route('cartview')->with('success', 'Cart Added Succesfully!');
-           
     }
 
     /**
@@ -66,19 +65,22 @@ class CartController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
-    {       
+    {
           
            
-            if (Auth::guard('register')->check()) {
-                $id=Auth::guard('register')->user()->id; 
-            } 
-           
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
+
+           $count= CartModel::count('user_id');
+           $request->session()->put('count', $count);
+
           $data= $this->CartModel->select()
-          ->join('registers','registers.id','=','user_id')
-          ->join('books','books.id','=','product_id')
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
           ->where('user_id', $id)
           ->get();
-          
+      
          $total= CartModel::where('user_id', $id)->sum('subtotal');
         //  dd($total);
            
@@ -86,9 +88,27 @@ class CartController extends Controller
         //   DB::table('users')
          
           return view('layouts.frontend.cart')->with('data', $data)->with('total', $total);
-          
     }
-
+    public function showdata(Request $request)
+    {
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
+       
+          $data= $this->CartModel->select()
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('user_id', $id)
+          ->get();
+      
+         $total= CartModel::where('user_id', $id)->sum('subtotal');
+        //  dd($total);
+       
+        //   $data=DB::table('carts')->select()->where('carts.user_id', '=', $id)->get();
+        //   DB::table('users')
+     
+          return view('layouts.frontend.orders')->with('data', $data)->with('total', $total);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -99,8 +119,8 @@ class CartController extends Controller
     {
        
         $data= $this->CartModel->select()
-        ->join('registers','registers.id','=','user_id')
-        ->join('books','books.id','=','product_id')
+        ->join('registers', 'registers.id', '=', 'user_id')
+        ->join('books', 'books.id', '=', 'product_id')
         ->where('cart_id', '=', $id)
         ->get();
         
@@ -130,7 +150,7 @@ class CartController extends Controller
         $data=array(
            
         'price'=>$pr=$request->price,
-        'qty'=>$qty=$request->qty,  
+        'qty'=>$qty=$request->qty,
        
         'subtotal'=>$pr*$qty,
         );
@@ -140,7 +160,6 @@ class CartController extends Controller
         
 
         return redirect()->route('cartview')->with('update', 'Cart update sucessfully!');
-
     }
 
     /**

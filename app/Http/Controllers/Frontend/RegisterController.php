@@ -82,7 +82,6 @@ class RegisterController extends Controller
         );
 
             $data=array(
-             
                 
                 'firstname'=>$request->fn,
                 'lastname'=>$request->ln,
@@ -102,44 +101,45 @@ class RegisterController extends Controller
                 return redirect('/User');
     }
 
-    public function OrderDetail(Request $request)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateuser(Request $request)
     {
-        $messages = [
+        // $messages = [
          
-            'addr.required' => 'Please insert Address!',
-            'pcode.required' => 'Please insert Post Code!',
-            'ct.required' => 'Please select City!',
-            'st.required' => 'Please select State !',
-           
-            'payment.required' => 'Please select Payment Type!',
+        //     'addr.required' => 'Please insert Address!',
+        //     'pcode.required' => 'Please insert Post Code!',
+        //     'ct.required' => 'Please select City!',
+        //     'st.required' => 'Please select State !',
             
-        ];
+        // ];
 
-        $request->validate(
-            [
+        // $request->validate(
+        //     [
               
-                'addr'=>'required|string',
-                'pcode'=>'required|string',
-                'ct'=>'required|string',
-                'st'=>'required|string',         
-                'payment'=>'required',
-             
-            ],
-            $messages
-        );
+        //         'addr'=>'required|string',
+        //         'zip'=>'required|string',
+        //         'ct'=>'required|string',
+        //         'st'=>'required|string',
+        //     ],
+        //     $messages
+        // );
 
-            $data=array(   
+        //     $data=array(
                
-                'address'=>$request->addr,
-                'postcode'=>$request->pcode,
-                'city'=>$request->ct,
-                'state'=>$request->st,
-                'payment'=>$request->payment,
-               
-                );
+        //         'address'=>$request->addr,
+        //         'postcode'=>$request->zip,
+        //         'city'=>$request->ct,
+        //         'state'=>$request->st,
+                         
+        //         );
                 
-             
-                $this->RegisterModel->create($data);
+        //      dd($data);
+        //         $this->RegisterModel->create($data);
                 return view('layouts.frontend.cart');
     }
 
