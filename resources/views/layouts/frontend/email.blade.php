@@ -10,7 +10,7 @@
 				<div class="breadcrumb-contents">
 					<nav aria-label="breadcrumb">
 						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+							<li class="breadcrumb-item"><a href="{{ ('/') }}">Home</a></li>
 							<li class="breadcrumb-item active">Order Complete</li>
 						</ol>
 					</nav>
@@ -23,52 +23,53 @@
 			<div class="container">
 				<div class="row">
 					<div class="col-12">
+				
 						<div class="order-complete-message text-center">
 							<h1>Thank you !</h1>
-							<p>Your order has been received.</p>
+							<p>Your order has been received,<br> Check your mail for pdf invoice</p>
 						</div>
-						<ul class="order-details-list">
-							<li>Order Number: <strong>3053</strong></li>
-							<li>Date: <strong>January 24, 2019</strong></li>
-							<li>Total: <strong>$117.00</strong></li>
-							<li>Payment Method: <strong>Cash on Delivery</strong></li>
-						</ul>
-						<p>Pay with cash upon delivery.</p>
+						{{-- <ul class="order-details-list">
+							
+							@foreach ($data as $data1)
+							<li>Total: <strong>Rs.{{ $data1->grandtotal }}</strong></li>
+							<li>Payment Method: <strong>{{ $data1->payment }}</strong></li>
+							@endforeach
+						</ul> --}}
+					
 						<h3 class="order-table-title">Order Details</h3>
 						<div class="table-responsive">
 							<table class="table order-details-table">
-								<thead>
-									<tr>
-										<th>Product</th>
-										<th>Total</th>
+								
+									
+							
+								<thead style="background-color: #62ab00">
+									<tr >
+										<th style="color: white;font-size: 16px">Product</th>
+										<th style="color: white;font-size: 16px">Total</th>
 									</tr>
 								</thead>
 								<tbody>
+									@foreach ($data as $data1)
 									<tr>
-										<td><a href="single-product.html">Vans Off The Wall T-Shirt In</a> <strong>× 1</strong></td>
-										<td><span>$59.00</span></td>
+										<td><a href="single-product.html">{{ $data1->productname }}</a> <strong>×{{ $data1->qty }}</strong></td>
+										<td><span>Rs.{{ $data1->subtotal }}</span></td>
 									</tr>
-									<tr>
-										<td><a href="single-product.html">Supreme Being Icon Glitch T-Shirt</a> <strong>× 1</strong></td>
-										<td><span>$58.00</span></td>
-									</tr>
+									
+									@endforeach
 								</tbody>
-								<tfoot>
-									<tr>
-										<th>Subtotal:</th>
-										<td><span>$117.00</span></td>
-									</tr>
-									<tr>
-										<th>Payment Method:</th>
-										<td>Cash on Delivery</td>
-									</tr>
+								<tfoot style="background-color: whitesmoke">
 									<tr>
 										<th>Total:</th>
-										<td><span>$117.00</span></td>
+										<td><span>Rs.{{ $total }}/-</span></td>
 									</tr>
+									
+									
 								</tfoot>
-							</table>
+							
+							</table><br>
+							<a href="{{ ('/Email') }}" class="btn  btn-info" style="margin-left: 380px">Confirm</a>
 						</div>
+					
 					</div>
 				</div>
 			</div>

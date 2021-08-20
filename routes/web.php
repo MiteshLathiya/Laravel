@@ -41,7 +41,8 @@ Route::get('/DeleteCart/{id}', 'Frontend\CartController@destroy')->name('deletec
 Route::get('/PlaceOrder', 'Frontend\CartController@showdata');
 Route::post('/OrderInsert', 'Frontend\OrderController@store');
 
-Route::post('/Email', 'Frontend\EmailController@sendemail')->name('sendemail');
+Route::get('/OrderView', 'Frontend\EmailController@show')->name('orderview');
+Route::get('/Email', 'Frontend\EmailController@sendemail')->name('sendemail');
 // Route::post('/Email', 'Frontend\EmailController@sendEmail')
 
 //admin side

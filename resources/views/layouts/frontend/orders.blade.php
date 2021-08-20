@@ -78,13 +78,13 @@
                     
                 
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="1" checked>
+                    <input class="form-check-input" type="radio" name="payment" id="exampleRadios1" value="Cash On Delivery " checked>
                     <label class="form-check-label" for="exampleRadios1">
                       COD
                     </label>
                   </div>
                   <div class="form-check">
-                    <input class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="2">
+                    <input class="form-check-input" type="radio" name="payment" id="exampleRadios2" value="Online Payment">
                     <label class="form-check-label" for="exampleRadios2">
                       Online Payment
                     </label>
@@ -92,7 +92,7 @@
                 </div>
                   
               <br>
-                <input type="submit" value="Confirm" class="btn btn-primary" style="margin-left: 350px;">
+                <input type="submit" value="Submit" class="btn btn-primary" style="margin-left: 350px;">
             </form>
         </div>
     </div>

@@ -85,7 +85,7 @@ class OrderController extends Controller
             // $input['grandtotal']= $request->addr[$key];
             // $input['payment']= $request->payment[$key];
         }
-        $result = CartModel::where(['user_id'=> Auth::guard('register')->user()->id])->delete();
+        // $result = CartModel::where(['user_id'=> Auth::guard('register')->user()->id])->delete();
 
 
 
@@ -129,7 +129,7 @@ class OrderController extends Controller
                             
                         // dd($data);
                          
-                            return redirect('/Email');
+                        return redirect()->route('orderview');
     }
 
     /**
