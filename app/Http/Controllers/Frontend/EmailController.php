@@ -10,6 +10,7 @@ use PDF;
 // use Barryvdh\DomPDF\Facade\PDF;
 use Mail;
 use Illuminate\Support\Facades\Auth;
+
 // use App\Models\Frontend\CartModel;
 // use App\Models\Frontend\OrderModel;
 
@@ -22,7 +23,6 @@ class EmailController extends Controller
      */
     public function index()
     {
-       
     }
 
     /**
@@ -54,7 +54,7 @@ class EmailController extends Controller
      */
     public function show()
     {
-         if (Auth::guard('register')->check()) {
+        if (Auth::guard('register')->check()) {
             $id=Auth::guard('register')->user()->id;
         }
            
@@ -66,7 +66,7 @@ class EmailController extends Controller
 
           $total= CartModel::where('user_id', $id)->sum('subtotal');
 
-        return view('layouts.frontend.email')->with('data' , $data)->with('total', $total);
+        return view('layouts.frontend.email')->with('data', $data)->with('total', $total);
     }
 
     /**
@@ -106,34 +106,58 @@ class EmailController extends Controller
     public function sendemail(Request $request)
     {
 
-        // if (Auth::guard('register')->check()) {
-        //     $id=Auth::guard('register')->user()->id;
-        // }
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
            
-        //   $data= CartModel::select()
-        //   ->join('registers', 'registers.id', '=', 'user_id')
-        //   ->join('books', 'books.id', '=', 'product_id')
-        //   ->where('user_id', $id)
-        //   ->get();
-
-        //   $total= CartModel::where('user_id', $id)->sum('subtotal');
-
+          $product= CartModel::select()
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('user_id', $id)
+          ->get();
+          view()->share('product', $product);
+        
+     
+          $total= CartModel::where('user_id', $id)->sum('subtotal');
+          view()->share('total', $total);
         // return view('layouts.frontend.email')->with('data' , $data)->with('total', $total);
+        // foreach ($product as $data1) {
+            // $a=$data1->cart_id;
+            // dd($a);
+          
+        // $invoicedata = [
 
+            
+        //     'productname'=>$a=$data1->productname,
+           
+        //     'subtotal'=>$data1->subtotal,
+        //     // 'timestamp'=>$product->withBid->created_at,
+        //     // //sellers details
+        //     // 'sellers_company'=>$product->belongsToSeller->businessInformation->company_name,
+        //     // 'sellers_email'=>$product->belongsToSeller->businessInformation->email,
+        //     // 'sellers_tel'=>$product->belongsToSeller->businessInformation->tel,
+        //     // 'sellers_vat_nr'=>$product->belongsToSeller->businessInformation->vat_nr,
+        //     // 'sellers_address'=>explode(',',$product->belongsToSeller->businessInformation->address),
+        //         ];
+               
+
+        //     }
+            // dd($invoicedata);
           $data["email"] = "mitulathiya317@gmail.com";
           $data["title"] = "From miteshlathiya77@gmail.com";
           $data["body"] = "This is Demo";
 
       
-          $pdf = PDF::loadView('layouts.frontend.successorder', $data);
+          $pdf = PDF::loadView('layouts.frontend.successorder', ['product'=>$product], ['total'=>$total]);
   
-          Mail::send('layouts.frontend.successorder', $data, function($message)use($data, $pdf) {
+          Mail::send('layouts.frontend.plain', $data, function ($message) use ($data, $pdf) {
               $message->to($data["email"], $data["email"])
                       ->subject($data["title"])
-                      ->attachData($pdf->output(), "text.pdf");
+                      ->attachData($pdf->output(), "invoice.pdf");
           });
+           $result = CartModel::where(['user_id'=> Auth::guard('register')->user()->id])->delete();
+        return view('layouts.frontend.complete');
           dd('Mail sent successfully');
         //
     }
 }
-

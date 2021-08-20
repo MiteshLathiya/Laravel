@@ -1,7 +1,19 @@
 @extends('layouts.frontend.master')
 @include('layouts.frontend.header')
 
-		
+<style>
+   
+	.table{
+	  max-width: 2480px;
+	  width:100%;
+	}
+	.table td{
+	  width: auto;
+	  padding: 20px;
+	  overflow: hidden;
+	  word-wrap: break-word;
+	}
+  </style>	
 	
 		
 		<section class="breadcrumb-section">
@@ -24,10 +36,7 @@
 				<div class="row">
 					<div class="col-12">
 				
-						<div class="order-complete-message text-center">
-							<h1>Thank you !</h1>
-							<p>Your order has been received,<br> Check your mail for pdf invoice</p>
-						</div>
+						
 						{{-- <ul class="order-details-list">
 							
 							@foreach ($data as $data1)
@@ -51,7 +60,7 @@
 								<tbody>
 									@foreach ($data as $data1)
 									<tr>
-										<td><a href="single-product.html">{{ $data1->productname }}</a> <strong>×{{ $data1->qty }}</strong></td>
+										<td><a href="{{ route('viewcart',$data1->id) }}">{{ $data1->productname }}</a> <strong>×{{ $data1->qty }}</strong></td>
 										<td><span>Rs.{{ $data1->subtotal }}</span></td>
 									</tr>
 									

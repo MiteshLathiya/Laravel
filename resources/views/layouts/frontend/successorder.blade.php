@@ -1,47 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Invoice</title>
+</head>
+<body>
 
-		
-	
-		
-		<section class="breadcrumb-section">
-			<h2 class="sr-only">Site Breadcrumb</h2>
-			<div class="container">
-				<div class="breadcrumb-contents">
-					<nav aria-label="breadcrumb">
-						<ol class="breadcrumb">
-							<li class="breadcrumb-item"><a href="{{ ('/') }}">Home</a></li>
-							<li class="breadcrumb-item active">Order Complete</li>
-						</ol>
-					</nav>
-				</div>
-			</div>
-		</section>
+{{-- <h3>{{ $title }}</h3> --}}
+<style>
+   
+  .table{
+    max-width: 2480px;
+    width:100%;
+  }
+  .table td{
+    width: auto;
+    padding: 10px;
+    overflow: hidden;
+    word-wrap: break-word;
+  }
+</style>
+    </style>
 
-		<!-- order complete Page Start -->
-		<section class="order-complete inner-page-sec-padding-bottom">
-			<div class="container">
-				<div class="row">
-					<div class="col-12">
-				
-						<div class="order-complete-message text-center">
-							<h1>Thank you !</h1>
-                            <h1>{{ $title }}</h1>
-							<p>Your order has been received,<br> Check your mail for pdf invoice</p>
-						</div>
-						{{-- <ul class="order-details-list">
-							
-							@foreach ($data as $data1)
-							<li>Total: <strong>Rs.{{ $data1->grandtotal }}</strong></li>
-							<li>Payment Method: <strong>{{ $data1->payment }}</strong></li>
-							@endforeach
-						</ul> --}}
-					
-						
-					
-					</div>
-				</div>
-			</div>
-		</section>
-		<!-- order complete Page End -->
-		
 
-	
+
+<section class="order-complete inner-page-sec-padding-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+        
+                <div class="order-complete-message text-center">
+                    <h1>Thank you !</h1>
+                    <p>Your order has been received</p>
+                </div>
+             
+            
+                <h3 class="order-table-title">Order Details</h3>
+                <div class="table-responsive">
+                    <table class="table order-details-table">
+                        
+                            
+                    
+                        <thead style="background-color: #62ab00">
+                            <tr >
+                                <th style="color: white;font-size: 16px">Product</th>
+                                <th style="color: white;font-size: 16px">Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        
+                            @foreach ($product as $index=>$products)
+                            <tr>
+                                <td>{{ $products->productname  }}<strong>×{{ $products->qty }}</strong></td>
+                                <td><span>Rs.{{ $products->subtotal  }}</span></td>
+                            </tr>
+                            
+                            @endforeach
+                        </tbody>
+                        <tfoot style="background-color: whitesmoke">
+                            <tr>
+                                <th>Total:</th>
+                                <td><span>Rs.{{ $total }}/-</span></td>
+                            </tr>
+                            
+                            
+                        </tfoot>
+                    
+                    </table><br>
+                   
+                </div>
+            
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
