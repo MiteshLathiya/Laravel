@@ -57,6 +57,11 @@ border-radius: 5px;
     <center>{{ session()->get('added') }}<center>
 </div>
 @endif
+@if(session()->has('success'))
+<div class="alert alert-success" style="font-size: 16px;">
+    <center>{{ session()->get('success') }}<center>
+</div>
+@endif
 
 <!-- Cart Page Start -->
 <main class="cart-page-main-block inner-page-sec-padding-bottom">

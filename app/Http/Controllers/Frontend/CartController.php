@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Frontend\CartModel;
+use App\Models\Admin\BookModel;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -43,6 +44,8 @@ class CartController extends Controller
      */
     public function store(Request $request)
     {
+
+
         $data=array(
             
         'user_id'=>$request->userid,
@@ -54,8 +57,39 @@ class CartController extends Controller
         'subtotal'=>$request->qty*$request->price,
             );
 
+           
+
+            $user = CartModel::where('product_id', '=', $request->pid)->first();
+
+          
+        if ($user !== null) {
+            // $message = ['message' => 'Book already exist in your cart'];
+            return redirect()->route('home')->with('message', 'Book already exist in your cart');
+        } else {
+            $id = $request->pid;
+
+   
+
+            $bookdata = BookModel::find($id);
+  
+    
+
+             $quantity = $bookdata->quantity-$request->qty;
+    
+            $qty=array(
+                'quantity'=>$quantity,
+            );
+    
+
+            $bookdata->fill($qty)->save();
+            // $model->fill($inputs);
+
+            // $model=BookModel::fill($qty)::save();
+    
+   
             $this->CartModel->create($data);
-            return redirect()->route('cartview')->with('success', 'Cart Added Succesfully!');
+            return redirect()->route('cartview')->with('success', 'Book Added Succesfully!');
+        }
     }
 
     /**
@@ -72,16 +106,21 @@ class CartController extends Controller
             $id=Auth::guard('register')->user()->id;
         }
 
-           $count= CartModel::count('user_id');
-           $request->session()->put('count', $count);
+           
+         
 
           $data= $this->CartModel->select()
           ->join('registers', 'registers.id', '=', 'user_id')
           ->join('books', 'books.id', '=', 'product_id')
           ->where('user_id', $id)
           ->get();
-      
+
+        $count= CartModel::count('user_id');
+        $request->session()->put('count', $count);
+
          $total= CartModel::where('user_id', $id)->sum('subtotal');
+
+         $request->session()->put('subtotal', $total);
         //  dd($total);
            
         //   $data=DB::table('carts')->select()->where('carts.user_id', '=', $id)->get();

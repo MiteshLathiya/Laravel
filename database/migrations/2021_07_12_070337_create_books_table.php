@@ -24,6 +24,7 @@ class CreateBooksTable extends Migration
             $table->string('language');
             $table->string('description');
             $table->integer('price');
+            $table->integer('quantity');
             $table->timestamps();
         });
     }

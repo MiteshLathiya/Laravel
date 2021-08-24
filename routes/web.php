@@ -28,7 +28,9 @@ Route::post('/UserLogin', 'Frontend\LoginController@userlogin');
 Route::get('/UserLogout', 'Frontend\LoginController@logout');
 
 Route::get('/UserProfile', 'Frontend\UserController@index')->name('userprofile');
+Route::get('/UserProfile', 'Frontend\OrderController@show');
 Route::post('/EditUser', 'Frontend\UserController@update');
+Route::get('/OrderPDF', 'Frontend\OrderController@download')->name('OrderPDF');
 
 Route::get('/ViewCart/{id}', 'Admin\BookController@showproduct')->name('viewcart');
 Route::post('/AddToCart', 'Frontend\CartController@store');
@@ -68,8 +70,8 @@ Route::get('/Dashboard/Viewuser', 'Admin\UserController@show')->name('dashboard.
 Route::get('/Dashboard/Edituser/{id}', 'Admin\UserController@edit')->name('dashboard.edituser');
 Route::post('/Dashboard/Edituserdata', 'Admin\UserController@update');
 Route::get('/Dashboard/Deleteuser/{id}', 'Admin\UserController@destroy')->name('dashboard.deleteuser');
-
-
+Route::get('/Dashboard/Orderhistory', 'Frontend\OrderController@showallorder');
+Route::get('/Dashboard/EditOrder', 'Frontend\OrderController@showallorder')->name('dashboard.editorder');
 
 
 

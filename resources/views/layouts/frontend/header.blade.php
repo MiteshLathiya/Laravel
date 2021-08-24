@@ -48,7 +48,7 @@
                                             <i class="fas fa-chevron-down dropdown-arrow"></i></a></span>
                                                          
                                         <ul class="sub-menu">
-                                            <li>  <a href="{{ ('/UserProfile')}}" class="font-weight-bold">Edit Profile</a><br></li>
+                                            <li>  <a href="{{ ('/UserProfile')}}" class="font-weight-bold">View Profile</a><br></li>
                                             <li> <a href="{{ ('/UserLogout')}}" class="font-weight-bold">Logout</a> <br></li>
                                         </ul>
                                     </li>
@@ -80,7 +80,10 @@
                                     Shopping Cart
                                 </span>
                                 <span class="price">
-                                    Rs.0.00
+                                    Rs. @if(session()->has('subtotal'))
+                                    {{  session()->get('subtotal')}}
+                                 @else 
+                                 @endif
                                     <i class="fas fa-chevron-down"></i>
                                 </span>
                             </div>

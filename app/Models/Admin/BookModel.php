@@ -16,12 +16,13 @@ class BookModel extends Model
     protected $fillable=[
 
       'image','name','category','author','ISBN_number','pages','language','description','price'
-    ];
+      ,'quantity'];
 
    
     protected $table='books';
 
-    public $sortable = ['id', 'name', 'category', 'author', 'ISBN_number','pages','language','description','price'];
+    public $sortable = ['id', 'name', 'category', 'author', 'ISBN_number','pages','language','description','price'
+    ,'quantity'];
 
     // public function category()
     // {

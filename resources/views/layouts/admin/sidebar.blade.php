@@ -26,6 +26,12 @@
                         <span>User Management </span>
                     </a>
                 </li>
+                <li>
+                    <a href="{{ ('/Dashboard/Orderhistory') }}">
+                        <i class="fa fa-user"></i>
+                        <span>Order History</span>
+                    </a>
+                </li>
                
                 <!-- <li>
                     <a href="fontawesome.html">

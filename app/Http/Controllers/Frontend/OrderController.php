@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\Frontend\OrderModel;
 use App\Models\Frontend\CartModel;
+use PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -138,8 +139,31 @@ class OrderController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show()
     {
+
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
+
+        $data= $this->OrderModel
+        ->select()
+     
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('user_id', $id)
+          
+
+          ->get();
+// dd($data);
+        //   $date= $this->OrderModel->where('user_id', $id)->get('created_at');
+         
+        // $data= $this->OrderModel->where('user_id',"=", $id)->get();
+        // $data = $this->OrderModel->find($id);
+        // $data = $this->OrderModel->where('user_id', $id);
+
+        // dd($data);
+        return view('layouts.frontend.user_account')->with('data', $data);
     }
 
     /**
@@ -174,5 +198,67 @@ class OrderController extends Controller
     public function destroy($id)
     {
         //
+    }
+    public function download(Request $request)
+    {
+        if (Auth::guard('register')->check()) {
+            $id=Auth::guard('register')->user()->id;
+        }
+
+        $data= $this->OrderModel->select('orders.created_at as created_at')
+        ->select()
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('user_id', $id)
+          ->get();
+
+    
+      
+            view()->share('data', $data);
+          $pdf = PDF::loadview('layouts.frontend.orderhistory', $data);
+          return $pdf->download('orderhistory.pdf');
+        //   return view('layouts.frontend.user_account');
+    }
+
+    public function showallorder(Request $request)
+    {
+
+        $limit= $request->limit;
+        $search= $request->search;
+        $request->session()->put('limit', $limit);
+        $request->session()->put('search', $search);
+       
+        
+        if ($limit == null) {
+            $limit= 5;
+        }
+        
+        // $books = Book::join('publishers','publishers.id','books.publisher_id')
+        //         ->orderBy($sort,$direction)->selectRaw('books.*, publishers.name AS publisher_name')->paginate(5);
+                
+        $data= $this->OrderModel
+        ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          -> where('name', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('firstname', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('ISBN_number', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('grandtotal', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('payment', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('status', 'LIKE', '%'.$search.'%')
+                                    ->sortable()
+                                    ->paginate($limit);
+
+        
+        // $data= $this->OrderModel
+        // ->select()
+     
+        //   ->join('registers', 'registers.id', '=', 'user_id')
+        //   ->join('books', 'books.id', '=', 'product_id')
+         
+          
+
+        //   ->get();
+// dd($data);
+        return view('layouts.admin.orderhistory')->with('data', $data);
     }
 }

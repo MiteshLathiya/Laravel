@@ -86,8 +86,12 @@
                       
                         <li>Author: <a href="#" class="list-value font-weight-bold"> <input type="text" value="{{ $data->author }}" name="author" style="border: none" readonly></a></li>
                         <li>ISBN Code: <span class="list-value"><input type="text" value="{{ $data->ISBN_number }}" name="isbn" style="border: none" readonly> </span></li>
-                      
-                        <li>Availability: <span class="list-value"> In Stock</span></li>
+                      @if ($data->quantity == Null)
+                      <li>Availability: <span class="list-value"> Out Of Stock</span></li>
+                      @else
+                      <li>Availability: <span class="list-value"> In Stock :&nbsp; {{ $data->quantity }}</span></li>
+                      @endif
+                        
                     </ul>
                     <div class="price-block">
                         <span class="price-new"><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<input type="text" value="{{ $data->price }}" name="price" style="border: none" readonly></span>
@@ -109,11 +113,19 @@
                     
                     <div class="add-to-cart-row">
                         <div class="count-input-block">
+                            @if ($data->quantity == Null)
+                            @else
                             <span class="widget-label">Qty</span>
                             <input type="number" class="form-control text-center" value="1" min="1" max="5" name="qty" style="border: none">
+                            @endif       
                         </div>
                         <div class="add-cart-btn">
+                            @if ($data->quantity == Null)
+                            <a class="btn btn-outline-primary">Out Of Stock</a>
+                            @else
                             <input type="submit" value="+  Add to Cart" class="btn btn-outlined--primary">
+                            @endif
+                            
                                 </a>
                         </div>
                     </div>

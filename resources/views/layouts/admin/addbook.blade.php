@@ -130,6 +130,15 @@
                                             @enderror
                                         </div>
                                     </div>
+                                    <div class="form-group ">
+                                        <label for="lastname" class="control-label col-lg-3">Quantity</label>
+                                        <div class="col-lg-6">
+                                            <input class="form-control" value="{{ old('qty') }}"  name="qty" type="number">
+                                            @error('qty')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                  <br>
                                     <center>  
 

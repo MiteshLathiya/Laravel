@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\admin\BookModel;
 use Illuminate\Http\Request;
-use phpDocumentor\Reflection\Types\Null_;
 
 class BookController extends Controller
 {
@@ -54,6 +53,7 @@ class BookController extends Controller
             'lg.required' => 'Please insert Language!',
             'desc.required' => 'Please insert Description !',
             'pr.required' => 'Please insert Price!',
+            'qty.required' => 'Please insert Quantity!',
         ];
 
         $request->validate([
@@ -66,6 +66,7 @@ class BookController extends Controller
             'lg'=>'required',
             'desc'=>'required',
             'pr'=>'required|string|max:255',
+            'qty'=>'required|string|max:255',
         ], $messages);
 
     
@@ -85,6 +86,7 @@ class BookController extends Controller
             'language'=>$request->lg,
             'description'=>$request->desc,
             'price'=>$request->pr,
+            'quantity'=>$request->qty,
             );
             
          
@@ -156,6 +158,7 @@ class BookController extends Controller
             'auth.required' => 'Please insert Author!',
             'num.required' => 'Please insert ISBN Number!',
             'pr.required' => 'Please insert Price!',
+            'qty.required' => 'Please insert Quantity!',
         ];
 
         $request->validate([
@@ -165,6 +168,7 @@ class BookController extends Controller
             'auth' =>'required',
             'num'=>'required|string|max:255',
             'pr'=>'required|string|max:255',
+            'qty'=>'required|string|max:255',
         ], $messages);
 
         
@@ -196,7 +200,11 @@ class BookController extends Controller
             'author' =>$request->auth,
             'ISBN_number'=>$request->num,
             'price'=>$request->pr,
+            'quantity'=>$request->qty,
         );
+
+        // dd($data);
+        
 
         // $data = $request->all();
        

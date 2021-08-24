@@ -12,6 +12,13 @@
  <center>   {{ session()->get('added') }}<center>
 </div>
 @endif --}}
+<script>
+    window.setTimeout(function() {
+        $("div.alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 4000);
+    </script>
 @include('layouts.frontend.slider')
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <section class="pt--30 section-margin">
@@ -46,6 +53,11 @@
                 <div class="section-title section-title--bordered">
                     <h2>ARTS & PHOTOGRAPHY BOOKS</h2>
                 </div>
+                @if(session()->has('message'))
+<div class="alert alert-success" style="font-size: 16px;">
+    <center>{{ session()->get('message') }}<center>
+</div>
+@endif
                 <div class="product-slider sb-slick-slider slider-border-single-row" data-slick-setting='{
                 
                     "slidesToScroll": 4,   
