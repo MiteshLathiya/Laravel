@@ -22,11 +22,11 @@ class RedirectIfAuthenticated
         //     return redirect(RouteServiceProvider::HOME);
         // }
         if ($guard == "register" && Auth::guard($guard)->check()) {
-            return redirect('/');
+            return redirect('/Register');
         }
-        if (Auth::guard($guard)->check()) {
-            return redirect('/');
-        }
+        // if (Auth::guard($guard)->check()) {
+        //     return redirect('/Register');
+        // }
         return $next($request);
     }
 }

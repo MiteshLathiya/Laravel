@@ -9,7 +9,7 @@ class IndexModel extends Model
 
     protected $fillable=[
 
-        'image','name','category','author','ISBN_number','pages','language','description','price'
+        'image','name','category','author','ISBN_number','pages','language','description','price','quantity'
       ];
 
     protected $table='books';

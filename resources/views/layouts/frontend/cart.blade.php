@@ -105,7 +105,7 @@ border-radius: 5px;
                                     @else   --}}
                                    
 
-                                    @forelse($data as $product)
+                                @forelse($data as $product)
                                     <input type="text" value=" {{ $product->product_id }}" name="total" style="display: none">
                                     <!-- Product Row -->
                                     {{-- <input type="text" value=" {{ $product->firstname }}" name="total"> --}}
@@ -117,7 +117,7 @@ border-radius: 5px;
                                     </a> --}}
                                         <td class="pro-edit"><a href="{{ route('editcartview',$product->cart_id) }}"><i class="fa fa-edit"></i></a>
                                         </td>
-                                        <td class="pro-remove"><a href="{{ route('deletecart',$product->cart_id) }}"><i class="far fa-trash-alt"></i></a>
+                                        <td class="pro-remove"><a href="{{ route('deletecart',[$product->cart_id,$product->product_id,$product->qty]) }}"><i class="far fa-trash-alt"></i></a>
                                         </td>
                                        
                                     
@@ -423,6 +423,7 @@ border-radius: 5px;
                 
                 <div class="col-lg-12 col-12 d-flex" style="margin-left: 450px">
                     <div class="cart-summary">
+                        @forelse($data as $product)
                         <div class="cart-summary-wrap">
                             <h4><span>Cart Summary</span></h4>
                             @if ($total==!null)
@@ -437,11 +438,29 @@ border-radius: 5px;
                             @endif
                         </div>
                         <div class="cart-summary-button">
-                            {{-- <input type="submit" class="checkout-btn c-btn btn--primary" value="Order Now"> --}}
+                           
                             <a href="{{ ('/PlaceOrder') }}" class="checkout-btn c-btn btn--primary">Order Now</a>
                             <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a>
                             
+                            
+                           
+                            {{-- <input type="submit" class="checkout-btn c-btn btn--primary" value="Order Now"> --}}
+                            {{-- <a href="{{ ('/PlaceOrder') }}" class="checkout-btn c-btn btn--primary">Order Now</a>
+                            <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a> --}}
+                            
                         </div>
+@empty
+<div class="cart-summary-button">
+  
+    
+    <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add Product</a>
+   
+    {{-- <input type="submit" class="checkout-btn c-btn btn--primary" value="Order Now"> --}}
+    {{-- <a href="{{ ('/PlaceOrder') }}" class="checkout-btn c-btn btn--primary">Order Now</a>
+    <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a> --}}
+    
+</div>
+@endforelse
                     </form>
                     </div>
                 </div>

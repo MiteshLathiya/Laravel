@@ -115,35 +115,17 @@ class EmailController extends Controller
           ->join('books', 'books.id', '=', 'product_id')
           ->where('user_id', $id)
           ->get();
+
           view()->share('product', $product);
         
      
           $total= CartModel::where('user_id', $id)->sum('subtotal');
           view()->share('total', $total);
-        // return view('layouts.frontend.email')->with('data' , $data)->with('total', $total);
-        // foreach ($product as $data1) {
-            // $a=$data1->cart_id;
-            // dd($a);
-          
-        // $invoicedata = [
+      
 
-            
-        //     'productname'=>$a=$data1->productname,
-           
-        //     'subtotal'=>$data1->subtotal,
-        //     // 'timestamp'=>$product->withBid->created_at,
-        //     // //sellers details
-        //     // 'sellers_company'=>$product->belongsToSeller->businessInformation->company_name,
-        //     // 'sellers_email'=>$product->belongsToSeller->businessInformation->email,
-        //     // 'sellers_tel'=>$product->belongsToSeller->businessInformation->tel,
-        //     // 'sellers_vat_nr'=>$product->belongsToSeller->businessInformation->vat_nr,
-        //     // 'sellers_address'=>explode(',',$product->belongsToSeller->businessInformation->address),
-        //         ];
-               
+// $email=Auth::guard('register')->user()->email;
 
-        //     }
-            // dd($invoicedata);
-          $data["email"] = "mitulathiya317@gmail.com";
+          $data["email"] = "mitulathiya317@gmail.com";//$email
           $data["title"] = "From miteshlathiya77@gmail.com";
           $data["body"] = "This is Demo";
 

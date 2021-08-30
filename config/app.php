@@ -1,7 +1,7 @@
 <?php
 
 return [
-
+    'date_format' => 'd/m/Y',
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -141,6 +141,7 @@ return [
         /*
          * Laravel Framework Service Providers...
          */
+        Maatwebsite\Excel\ExcelServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
         Illuminate\Auth\AuthServiceProvider::class,
@@ -193,6 +194,7 @@ return [
     */
 
     'aliases' => [
+        
         'App' => Illuminate\Support\Facades\App::class,
         'Arr' => Illuminate\Support\Arr::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
@@ -207,6 +209,7 @@ return [
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,

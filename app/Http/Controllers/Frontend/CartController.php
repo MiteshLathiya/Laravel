@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Frontend\CartModel;
 use App\Models\Admin\BookModel;
 
+
 use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
@@ -207,10 +208,26 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $product_id, $qty)
     {
-        $this->CartModel->destroy($id);
+        $bookdata= BookModel::where('id', $product_id)->get(['quantity']);
+        // = BookModel::find($product_id);
+        foreach ($bookdata as $book) {
+            $bookqty= $book->quantity;
+        }
+   
+        $totalqty= $bookqty+$qty;
 
+        $qty=array(
+        'quantity'=>$totalqty,
+        );
+    
+        $modeldata= BookModel::find($product_id);
+  
+        $modeldata->fill($qty)->save();
+
+
+        $this->CartModel->destroy($id);
         return redirect()->route('cartview')->with('delete', 'Product deleted sucessfully!');
     }
 }

@@ -31,8 +31,13 @@
                     <div class="row">
                         <div class="col-4">
                             Show <select name="limit">
+                                @if (session()->get('limitdata'))
                                 <option value="{{session()->get('limitdata')}}">{{session()->get('limitdata')}}</option>
-                                <option value="">5</option>
+                                @else
+                                <option value="5">5</option>
+                                @endif
+                               
+               
                                 <option value="10">10</option>
                                 <option value="15">15</option>
                                 <option value="20">20</option>

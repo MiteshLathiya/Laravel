@@ -31,6 +31,7 @@
                 <div class="order-complete-message text-center">
                     <h1>Thank you !</h1>
                     <p>Your order has been received</p>
+                  
                 </div>
              
             
@@ -48,7 +49,7 @@
                         </thead>
                         <tbody>
         
-                            @foreach ($product as $index=>$products)
+                            @foreach ($product as $products)
                             <tr>
                                 <td>{{ $products->productname  }}<strong>×{{ $products->qty }}</strong></td>
                                 <td><span>Rs.{{ $products->subtotal  }}</span></td>

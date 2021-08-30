@@ -12,10 +12,16 @@ class OrderModel extends Model
     protected $fillable=[
 
         'user_id','product_id','address','postcode','city','state','quantity','grandtotal','payment'
+        ,'status','order_date'
     ];
 
-      public $sortable = ['user_id','product_id','address','postcode','city','state','quantity','grandtotal','payment'
-      ];
+      // public $sortable = ['order_id','product.name','registers.firstname','ISBN_numebr','grandtotal','payment','status'
+      // ];
+
+      const CREATED_AT = 'order_date';
+     
+
+      
 
       protected $table='orders';
       protected $primaryKey = 'order_id';

@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Models\Frontend\OrderModel;
-use App\Models\Frontend\CartModel;
 use PDF;
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use Illuminate\Http\Request;
+use App\Models\Admin\BookModel;
+use App\Models\Frontend\CartModel;
+use App\Models\Frontend\OrderModel;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\UserMultiSheetExport;
 
 class OrderController extends Controller
 {
@@ -205,7 +210,7 @@ class OrderController extends Controller
             $id=Auth::guard('register')->user()->id;
         }
 
-        $data= $this->OrderModel->select('orders.created_at as created_at')
+        $data= $this->OrderModel->select()
         ->select()
           ->join('registers', 'registers.id', '=', 'user_id')
           ->join('books', 'books.id', '=', 'product_id')
@@ -223,10 +228,15 @@ class OrderController extends Controller
     public function showallorder(Request $request)
     {
 
+
+    // $request->validate([
+    //     'email' => 'required|email',
+    //     'password' => 'required',
+    // ]);
         $limit= $request->limit;
         $search= $request->search;
-        $request->session()->put('limit', $limit);
-        $request->session()->put('search', $search);
+        $request->session()->put('limitdata', $limit);
+        $request->session()->put('searchdata', $search);
        
         
         if ($limit == null) {
@@ -235,19 +245,91 @@ class OrderController extends Controller
         
         // $books = Book::join('publishers','publishers.id','books.publisher_id')
         //         ->orderBy($sort,$direction)->selectRaw('books.*, publishers.name AS publisher_name')->paginate(5);
-                
+        $from=$request->from;
+        $to=$request->to;
+      
+
         $data= $this->OrderModel
+       
         ->join('registers', 'registers.id', '=', 'user_id')
           ->join('books', 'books.id', '=', 'product_id')
-          -> where('name', 'LIKE', '%'.$search.'%')
+          ->where('name', 'LIKE', '%'.$search.'%')
+          
                                     ->orWhere('firstname', 'LIKE', '%'.$search.'%')
                                     ->orWhere('ISBN_number', 'LIKE', '%'.$search.'%')
                                     ->orWhere('grandtotal', 'LIKE', '%'.$search.'%')
                                     ->orWhere('payment', 'LIKE', '%'.$search.'%')
+                                    ->orWhere('order_date', 'LIKE', '%'.$search.'%')
                                     ->orWhere('status', 'LIKE', '%'.$search.'%')
-                                    ->sortable()
-                                    ->paginate($limit);
+                                    ->whereBetween('order_date', array($request->from, $request->to))
+                                    // ->get()
+                                    // ->toArray()
+            //                         ->whereDate('order_date', '>=', $from)
+            // ->whereDate('order_date', '<=', $to)
+            // ->get()
+            // ->toArray()
+            ->paginate($limit);
+           
 
+        //  $startDate = '24/08/2021';
+        // $endDate = '25/08/2021';
+      
+        $from=$request->from;
+        $to=$request->to;
+        // dd($to);
+        if ($from and $to !== null) {
+            $date = $this->OrderModel::select('order_date')
+            ->whereDate('order_date', '>=', $from)
+            ->whereDate('order_date', '<=', $to)
+            ->get();
+        }
+       
+  
+  
+
+                                    // $from = date('2018-01-01');
+                                    // $to = date('2018-05-02');
+                                    
+                                    // $datedata=OrderModel::whereBetween('order_date', [$from, $to])->get();
+
+                                   
+
+                 $type= $request->downloadtype;
+
+
+        if ($request->download) {
+            $message=
+            [
+            'downloadtype.required'=>'Please Select Type',
+            ];
+
+            $request->validate(
+                [
+                'downloadtype'=>'required'
+                ],
+                $message
+            );
+
+
+            if ($type == '.csv') {
+                return Excel::download(new UsersExport($search, $limit), 'OrderHistory.csv');
+            } elseif ($type == '.xlsx') {
+                return Excel::download(new UsersExport($search, $limit), 'OrderHistory.xlsx');
+            }
+        }
+                                
+                                   
+                // return Excel::download(new UsersExport($user), 'order_history.xlsx');
+                                    // $type='csv';
+
+        // Excel::create('Customer Data', function($excel) use ($data){
+        //     $excel->setTitle('Customer Data');
+        //     $excel->sheet('Customer Data', function($sheet) use ($data){
+        //      $sheet->fromArray($data, null, 'A1', false, false);
+        //     });
+        //    })->download('xlsx');
+                                 
+      
         
         // $data= $this->OrderModel
         // ->select()
@@ -259,6 +341,66 @@ class OrderController extends Controller
 
         //   ->get();
 // dd($data);
-        return view('layouts.admin.orderhistory')->with('data', $data);
+        return view('layouts.admin.orderhistory')->with('data', $data)
+        // ->with('date',$date)
+        ;
+    }
+
+    public function editorder($id)
+    {
+
+        $data= $this->OrderModel->select()
+        ->select('orders.*', 'registers.*', 'books.*', 'orders.quantity', 'books.quantity as qty')
+          ->join('registers', 'registers.id', '=', 'user_id')
+          ->join('books', 'books.id', '=', 'product_id')
+          ->where('order_id', $id)
+          ->get();
+          
+        // $qty=$this->OrderModel->find($id);
+// $a=$data->order_date;
+// dd($data);
+        return view('layouts.admin.editorder')->with('data', $data);
+    }
+
+    public function updateorder(Request $request)
+    {
+
+        $request->validate(
+            [
+                'return'=>'required'
+            ]
+        );
+
+        $id=$request->orderid;
+
+        $bookid=$request->productid;
+        // dd($bookid);
+        $bookdata = BookModel::find($bookid);
+        $updateqty=$request->qty+$request->quantity;
+        $qty=array(
+            'quantity'=>$updateqty,
+        );
+        $bookdata->fill($qty)->save();
+
+        // $data=array(
+
+        //     ''=>,
+        // );
+        $data= $this->OrderModel->select()
+        ->where('order_id', $id)
+        ->update(['status' => $request->return]);
+        // dd($data);
+        // $dataid = $this->OrderModel->find($id);
+        // $id->OrderModel::fill($data)::save();
+        // $id->fill($data)->save();
+       
+       
+        return redirect()->route('dashboard.orderhistory')->with('success', 'Updated Successfull');
+    }
+
+    public function exceldownload(Excel $excel)
+    {
+        $user= 1;
+        return $excel->download(new UserMultiSheetExport($user), 'order_history.xlsx');
     }
 }

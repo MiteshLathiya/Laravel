@@ -55,7 +55,7 @@
                                 <td>{{ $data1->order_id }}</td>
                                 <td>{{ $data1->name }}</td>
                                
-                                <td>{{ $data1->created_at }}</td>
+                                <td>{{ $data1->order_date }}</td>
                                
                                 <td>{{ $data1->status }}</td>
                                 <td>{{ $data1->grandtotal }}</td>

@@ -38,7 +38,7 @@ Route::get('/CartView', 'Frontend\CartController@show')->name('cartview');
 
 Route::get('/EditCartView/{id}', 'Frontend\CartController@edit')->name('editcartview');
 Route::post('/UpdateCart', 'Frontend\CartController@update');
-Route::get('/DeleteCart/{id}', 'Frontend\CartController@destroy')->name('deletecart');
+Route::get('/DeleteCart/{id}/{product_id}/{qty}', 'Frontend\CartController@destroy')->name('deletecart');
 
 Route::get('/PlaceOrder', 'Frontend\CartController@showdata');
 Route::post('/OrderInsert', 'Frontend\OrderController@store');
@@ -70,9 +70,9 @@ Route::get('/Dashboard/Viewuser', 'Admin\UserController@show')->name('dashboard.
 Route::get('/Dashboard/Edituser/{id}', 'Admin\UserController@edit')->name('dashboard.edituser');
 Route::post('/Dashboard/Edituserdata', 'Admin\UserController@update');
 Route::get('/Dashboard/Deleteuser/{id}', 'Admin\UserController@destroy')->name('dashboard.deleteuser');
-Route::get('/Dashboard/Orderhistory', 'Frontend\OrderController@showallorder');
-Route::get('/Dashboard/EditOrder', 'Frontend\OrderController@showallorder')->name('dashboard.editorder');
-
+Route::get('/Dashboard/Orderhistory', 'Frontend\OrderController@showallorder')->name('dashboard.orderhistory');
+Route::get('/Dashboard/EditOrder/{id}', 'Frontend\OrderController@editorder')->name('dashboard.editorder');
+Route::post('/Dashboard/UpdateOrder', 'Frontend\OrderController@updateorder');
 
 
 // Route::get('/Dashboard/Viewbook','Admin\ViewBookController@show');
