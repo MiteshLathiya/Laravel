@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Models\Frontend\RegisterModel;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -25,6 +26,7 @@ class RegisterController extends Controller
      */
     public function index()
     {
+       
         return view('layouts.frontend.register');
     }
 
@@ -98,6 +100,8 @@ class RegisterController extends Controller
                 
              
                 $this->RegisterModel->create($data);
+
+                // return response()->json($data);
                 return redirect('/User');
     }
 
@@ -186,5 +190,29 @@ class RegisterController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // protected function registered(Request $request, $user)
+    // {
+    //     $user->generateToken();
+    
+      
+    // }
+
+    public function register(Request $request)
+    {
+        $data=$request->all();
+        
+        $this->RegisterModel->create($data);
+
+        // $this->validator($request->all())->validate();
+
+        // event(new Registered($user = $this->create($request->all())));
+
+        // $this->guard()->login($user);
+
+        return response()->json([
+            "data"=>$data
+        ], 200);
     }
 }

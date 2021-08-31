@@ -39,7 +39,7 @@
                                  @foreach ($data as $data1)    
                                  <input class="form-control" name="orderid"  value="{{ $data1->order_id }}"  type="text" style="display: none;">
  
-                                        <input class="form-control" name="qty"  value="{{ $data1->qty }}"  type="text" >
+                                        <input class="form-control" name="qty"  value="{{ $data1->qty }}"  type="text" style="display: none;">
                                      
                                            
                                       

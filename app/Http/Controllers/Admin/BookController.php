@@ -45,6 +45,7 @@ class BookController extends Controller
         $messages = [
             'img.required' => 'Please insert image!',
             'img.image' => 'Insert only image!',
+            'img.max' => 'Insert less then 3mb!',
             'nm.required' => 'Please insert Book Name!',
             'cat.required' => 'Please insert Category!',
             'auth.required' => 'Please insert Author!',
@@ -57,7 +58,8 @@ class BookController extends Controller
         ];
 
         $request->validate([
-            'img'=>'required|image',
+            'img'=>'required|image|max:3000',//kilobytes
+          
             'nm'=>'required|string|max:255',
             'cat'=>'required|string|max:255',
             'auth' =>'required',
@@ -73,7 +75,7 @@ class BookController extends Controller
 
         $img=$request->file('img');
         $filename=rand(). '.'.$img->getClientOriginalExtension();
-        $img->move(public_path('style/frontend/image/products'), $filename);
+        $img->move('style/frontend/image/products', $filename);
 
         $data=array(
              
@@ -87,6 +89,7 @@ class BookController extends Controller
             'description'=>$request->desc,
             'price'=>$request->pr,
             'quantity'=>$request->qty,
+
             );
             
          
@@ -150,7 +153,18 @@ class BookController extends Controller
      */
     public function update(Request $request)
     {
+        $img=$request->file('img');
 
+        if ($img !== null) {
+            $messages = [
+                'img.required' => 'Please insert image!',
+            'img.image' => 'Insert only image!',
+            'img.max' => 'Insert less then 3mb!',
+            ];
+            $request->validate([
+                'img'=>'required|image|max:3000',
+            ], $messages);
+        }
         $messages = [
             // 'img.required' => 'Please insert image!',
             'nm.required' => 'Please insert Book Name!',
@@ -181,17 +195,13 @@ class BookController extends Controller
         $img=$request->file('img');
         if ($img !== null) {
             $filename=rand(). '.'.$img->getClientOriginalExtension();
-            $img->move(public_path('style/frontend/image/products'), $filename);
+            $img->move('style/frontend/image/products', $filename);
             $data=array(
                 'image'=>$filename
             );
             $dataid->fill($data)->save();
         }
        
-
-        // if ($request->hasFile('image')) {
-        //     dd('write code here');
-        // }
 
         $data=array(
        
@@ -210,10 +220,7 @@ class BookController extends Controller
        
         $dataid->fill($data)->save();
      
-        // $img = $request->file('img');
-        //     $imagename=time() . '_'.$data['data'] .'.'. $img->getClientOriginalExtension();
-        //     $data['image'] = $imagename;
-        //     $img->move(public_path(config('bookimage')), $imagename);
+      
 
          
         return redirect()->route('dashboard.viewbook')->with('update', 'Book updated sucessfully!');
@@ -228,7 +235,7 @@ class BookController extends Controller
      */
     public function destroy($id)
     {
-        BookModel::destroy($id);
+        $this->BookModel->destroy($id);
 
         return redirect()->route('dashboard.viewbook')->with('delete', 'Book deleted sucessfully!');
     }
@@ -238,10 +245,4 @@ class BookController extends Controller
       
         return view('layouts.frontend.product-details')->with('data', $data);
     }
-    // public function pagination()
-    // {
-    //     $booksdata = BookModel::paginate(5);
-
-    //     return view('layouts.admin.viewbook')->with('data', $booksdata);
-    // }
 }

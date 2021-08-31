@@ -52,7 +52,7 @@ $('#to').datepicker({
                         <input type="submit">
                     </div>
                     </div>
-                    <div class="form-group-attached">
+                    {{-- <div class="form-group-attached">
                         <div class="row">
                             <div class="col-lg-6">
                                 <div class="form-group form-group-default required" >
@@ -67,7 +67,7 @@ $('#to').datepicker({
                                 </div>
                             </div>
                         </div>
-                      </div>
+                      </div> --}}
                     <div class="row">
                         <div class="col-5">
                           <select name="downloadtype">

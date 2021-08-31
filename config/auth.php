@@ -106,11 +106,11 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'registers' => [
-            'provider' => 'registers',
-            'table' => 'password_resets',
-            'expire' => 15,
-        ],
+        // 'registers' => [
+        //     'provider' => 'registers',
+        //     // 'table' => 'password_resets',
+        //     // 'expire' => 15,
+        // ],
     ],
 
     /*

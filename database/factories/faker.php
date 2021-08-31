@@ -14,7 +14,7 @@ $factory->define(UserModel::class, function (Faker $faker) {
         'firstname'     =>$faker->name(),
         'lastname'      =>$faker->name(),
         'email'         =>$faker->email(),
-        'mobile'        =>$faker->numerify('##########'),
+        'mobile'        =>$faker->numberBetween(9123456789, 9987654321),
         // 'address'       =>$faker->address(),
         // 'postcode'      =>$faker->numberBetween(360001,3600200),
         // 'city'          =>$faker->randomElement(['Rajkot', 'Ahmedabad','Jamnagar','Surat','Vadodara']),

@@ -15,7 +15,7 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $req)
+    public function index()
     {
         return view('layouts.admin.login');
     }
@@ -42,32 +42,7 @@ class LoginController extends Controller
         //    dd($user_data); exit;
 
         if (Auth::attempt($user_data)) {
-                // $request->session()->put('data', $request->input());
-             // $minutes = 60;
-               
-                
-                
-             // $response::withCookie(cookie('email', $request->post('email'), $minutes));
-             // return $response;
-             $minutes = 30;
-             $cookie = cookie('name', 'a', $minutes);
-              
-             // $response = new Response;
-             // $response->withCookie(cookie('em', 'hello', $minutes));
-            //    $cookie = cookie('em', 'value', $minutes );
-             $value = $request->cookie('name');
-             // dd($value);
-             // return response('Hello World')->cookie($cookie);
-             // return $response;
-             // $minutes = 30;
-             // $response = new Response('Hello World');
-             // $response->withCookie(cookie('name', 'virat', $minutes));
-             // return $response;
-                
             return redirect('/Dashboard');
-            // return redirect()->route('/Dashboard');
-            //   return redirect('');
-            // return view('layouts.admin.content');
         } else {
             return redirect()->back()->withErrors(
                 [
