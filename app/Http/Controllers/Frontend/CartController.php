@@ -69,7 +69,6 @@ class CartController extends Controller
             // $message = ['message' => 'Book already exist in your cart'];
             return redirect()->route('home')->with('message', 'Book already exist in your cart');
         } else {
-            
             // $id = $request->pid;
 
    
@@ -120,9 +119,9 @@ class CartController extends Controller
           ->get();
 
         $count= CartModel::
-        where('user_id','=',$id)
+        where('user_id', '=', $id)
         ->count();
-        // dd($count); 
+        // dd($count);
         $request->session()->put('count', $count);
 
          $total= CartModel::where('user_id', $id)->sum('subtotal');
