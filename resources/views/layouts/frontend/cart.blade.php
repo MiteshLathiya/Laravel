@@ -423,10 +423,10 @@ border-radius: 5px;
                 
                 <div class="col-lg-12 col-12 d-flex" style="margin-left: 450px">
                     <div class="cart-summary">
-                        @forelse($data as $product)
+                        @if ($total==!null)
                         <div class="cart-summary-wrap">
                             <h4><span>Cart Summary</span></h4>
-                            @if ($total==!null)
+                           
                                 
                            
                             <p>Sub Total <span class="text-primary">RS.{{ $total }}</span></p>
@@ -435,7 +435,7 @@ border-radius: 5px;
                             
                            
                             <h2>Grand Total <span class="text-primary">Rs.{{ $total }}</span></h2>
-                            @endif
+                           
                         </div>
                         <div class="cart-summary-button">
                            
@@ -449,8 +449,9 @@ border-radius: 5px;
                             <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a> --}}
                             
                         </div>
-@empty
-<div class="cart-summary-button">
+                        @endif
+@if ($total==null)
+ <div class="cart-summary-button">
   
     
     <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add Product</a>
@@ -459,8 +460,9 @@ border-radius: 5px;
     {{-- <a href="{{ ('/PlaceOrder') }}" class="checkout-btn c-btn btn--primary">Order Now</a>
     <a href="{{ ('/') }}"  class="update-btn c-btn btn-outlined">Add More</a> --}}
     
-</div>
-@endforelse
+</div> 
+@endif
+
                     </form>
                     </div>
                 </div>

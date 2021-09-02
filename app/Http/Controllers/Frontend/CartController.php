@@ -60,29 +60,32 @@ class CartController extends Controller
 
            
 
-            $user = CartModel::where('product_id', '=', $request->pid)->first();
+            $user = CartModel::
+            where('user_id', '=', $request->userid)
+            ->where('product_id', '=', $request->pid)->first();
 
           
         if ($user !== null) {
             // $message = ['message' => 'Book already exist in your cart'];
             return redirect()->route('home')->with('message', 'Book already exist in your cart');
         } else {
-            $id = $request->pid;
+            
+            // $id = $request->pid;
 
    
 
-            $bookdata = BookModel::find($id);
+            // $bookdata = BookModel::find($id);
   
     
 
-             $quantity = $bookdata->quantity-$request->qty;
+            //  $quantity = $bookdata->quantity-$request->qty;
     
-            $qty=array(
-                'quantity'=>$quantity,
-            );
+            // $qty=array(
+            //     'quantity'=>$quantity,
+            // );
     
 
-            $bookdata->fill($qty)->save();
+            // $bookdata->fill($qty)->save();
             // $model->fill($inputs);
 
             // $model=BookModel::fill($qty)::save();
@@ -116,7 +119,10 @@ class CartController extends Controller
           ->where('user_id', $id)
           ->get();
 
-        $count= CartModel::count('user_id');
+        $count= CartModel::
+        where('user_id','=',$id)
+        ->count();
+        // dd($count); 
         $request->session()->put('count', $count);
 
          $total= CartModel::where('user_id', $id)->sum('subtotal');
