@@ -76,6 +76,7 @@
 								</tfoot>
 							
 							</table><br>
+							
 							<a href="{{ ('/Email') }}" class="btn  btn-info" style="margin-left: 380px">Confirm</a>
 						</div>
 					

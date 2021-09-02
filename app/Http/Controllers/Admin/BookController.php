@@ -116,7 +116,7 @@ class BookController extends Controller
             $limit= 5;
         }
         
-        $data= $this->BookModel->where('name', 'LIKE', '%'.$search.'%')
+        $data = $this->BookModel->where('name', 'LIKE', '%'.$search.'%')
                                     ->orWhere('category', 'LIKE', '%'.$search.'%')
                                     ->orWhere('author', 'LIKE', '%'.$search.'%')
                                     ->orWhere('ISBN_number', 'LIKE', '%'.$search.'%')
