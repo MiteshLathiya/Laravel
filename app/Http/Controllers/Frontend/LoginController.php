@@ -96,7 +96,7 @@ class LoginController extends Controller
         //   $m=Auth::guard('register')->user()->id;
         //     dd($m);
             // $request->session()->put('user', $request->input());
-            return redirect()->intended('/');
+            return redirect('/');
         } else {
             return redirect()->back()->withErrors(
                 [
