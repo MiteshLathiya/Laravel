@@ -18,7 +18,8 @@ $factory->define(BookModel::class, function (Faker $faker) {
         'pages'         =>$faker->numberBetween(50, 500),
         'language'      =>$faker->randomElement(['Gujarati', 'Hindi','English']),
         'description'   =>$faker->text(),
-        'price'         =>$faker->numberBetween(10, 500),
+        'price'         =>$faker->numberBetween(1, 10),
+        'quantity'      =>$faker->numberBetween(20, 50),
         
     ];
 });
