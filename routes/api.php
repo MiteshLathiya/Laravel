@@ -54,6 +54,10 @@ Route::post('/AddToCart', 'Frontend\CartController@apiStore');
 
 Route::get('/CartView{id}', 'Frontend\CartController@apiShow');
 
+Route::post('/UpdateCart', 'Frontend\CartController@apiEdit');
+
+Route::get('/DeleteCart{id}', 'Frontend\CartController@apiDelete');
+
 // Route::get('/Register/User', [RegisterController::class,'store']);
 
 

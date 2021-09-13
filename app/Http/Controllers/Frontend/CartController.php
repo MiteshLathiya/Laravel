@@ -282,4 +282,62 @@ class CartController extends Controller
      
             return response()->json([$data], 201);
     }
+
+    public function apiEdit(Request $request)
+    {
+        $id = $request->id;
+        $id=$request->cartid;
+
+        // $cartid = $this->CartModel->find($id);
+        $cartid= $this->CartModel->where('cart_id', $id)->get();
+       
+
+        foreach ($cartid as $cartdata) {
+            $pr=$cartdata->price;
+        }
+
+    
+        $data=array(
+           
+      
+        'qty'=>$qty=$request->qty,
+       
+        'subtotal'=>$pr*$qty,
+        );
+// dd($data);
+     
+        $this->CartModel->where('cart_id', $id)->update($data);
+      
+          return response()->json([$data,'Update'=>'Sucess']);
+    }
+
+    public function apiDelete($id)
+    {
+        $cartid= $this->CartModel->where('cart_id', $id)->get();
+
+        foreach ($cartid as $cartdata) {
+            $product_id = $cartdata->product_id;
+            $qty =$cartdata->qty;
+        }
+        
+        $bookdata= BookModel::where('id', $product_id)->get(['quantity']);
+        // = BookModel::find($product_id);
+        foreach ($bookdata as $book) {
+            $bookqty= $book->quantity;
+        }
+   
+        $totalqty= $bookqty+$qty;
+
+        $qtydata=array(
+        'quantity'=>$totalqty,
+        );
+    
+        $modeldata= BookModel::find($product_id);
+  
+        $modeldata->fill($qtydata)->save();
+
+
+        $this->CartModel->destroy($id);
+        return response()->json(['Deleted'=>'Sucessfully!']);
+    }
 }
