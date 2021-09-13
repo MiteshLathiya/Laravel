@@ -23,6 +23,7 @@ class CreateRegistersTable extends Migration
             $table->integer('postcode')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
+            $table->string('api_token', 60)->unique()->nullable();
         
             $table->string('password');
             $table->timestamps();

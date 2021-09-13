@@ -134,6 +134,7 @@ class CartController extends Controller
          
           return view('layouts.frontend.cart')->with('data', $data)->with('total', $total);
     }
+    
     public function showdata(Request $request)
     {
         if (Auth::guard('register')->check()) {
@@ -234,5 +235,51 @@ class CartController extends Controller
 
         $this->CartModel->destroy($id);
         return redirect()->route('cartview')->with('delete', 'Product deleted sucessfully!');
+    }
+
+    public function apiStore(Request $request)
+    {
+
+        $bookdata= BookModel::where('id', $request->pid)->get();
+
+        foreach ($bookdata as $book) {
+            $nm= $book->name;
+            $num= $book->ISBN_number;
+            $pr= $book->price;
+        }
+
+        $data=array(
+            
+            'user_id'=>$request->userid,
+            'product_id'=>$request->pid,
+            'productname'=>$nm,
+            'ISBN_number'=>$num,
+            'qty'=>$request->qty,
+            'price'=>$pr,
+            'subtotal'=>$request->qty*$pr,
+                );
+    
+               
+              
+        if ($data !== null) {
+            $this->CartModel->create($data);
+            return response()->json([$data,'success'=>'added'], 201);
+        } else {
+            return response()->json([$data,'error'=>'Failed'], 401);
+        }
+    }
+
+    public function apiShow(Request $request, $id)
+    {
+      
+        $data= $this->CartModel->where('user_id', $id)->get();
+        
+        //   $data= $this->CartModel->select()
+        //   ->join('registers', 'registers.id', '=', 'user_id')
+        //   ->join('books', 'books.id', '=', 'product_id')
+        //   ->where('user_id', $id)
+        //   ->get();
+     
+            return response()->json([$data], 201);
     }
 }

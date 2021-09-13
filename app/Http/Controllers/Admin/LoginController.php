@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Admin\LoginModel;
 use Illuminate\Http\Request;
 
-use Illuminate\Http\Response;
+
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller

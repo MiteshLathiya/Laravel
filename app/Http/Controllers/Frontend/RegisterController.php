@@ -99,7 +99,7 @@ class RegisterController extends Controller
                 );
                 
              
-                $this->RegisterModel->create($data);
+                $this->RegisterModel->userinsert($data);
 
                 // return response()->json($data);
                 return redirect('/User');
@@ -199,20 +199,57 @@ class RegisterController extends Controller
       
     // }
 
+    public function view(Request $request)
+    {
+
+        return $this->RegisterModel->all();
+            // return response()->json($data);
+        // // Here the request is validated. The validator method is located
+        // // inside the RegisterController, and makes sure the name, email
+        // // password and password_confirmation fields are required.
+        // $this->validator($request->all())->validate();
+    
+        // // A Registered event is created and will trigger any relevant
+        // // observers, such as sending a confirmation email or any
+        // // code that needs to be run as soon as the user is created.
+        // event(new Registered($user = $this->create($request->all())));
+    
+        // // After the user is created, he's logged in.
+        // $this->guard()->login($user);
+         // event(new Registered($user = $this->create($request->all())));
+    
+        
+        // $this->guard()->login($user);
+    
+      
+        // return $this->registered($request, $user)
+        //                 ?: redirect($this->redirectPath());
+        // // And finally this is the hook that we want. If there is no
+        // // registered() method or it returns null, redirect him to
+        // // some other URL. In our case, we just need to implement
+        // // that method to return the correct response.
+        // return $this->registered($request, $user)
+        //                 ?: redirect($this->redirectPath());
+    }
+
     public function register(Request $request)
     {
-        $data=$request->all();
-        
-        $this->RegisterModel->create($data);
 
-        // $this->validator($request->all())->validate();
+        $request->validate(
+            [$request->all()
+            ],
+        );
 
-        // event(new Registered($user = $this->create($request->all())));
 
-        // $this->guard()->login($user);
+        $user = $this->RegisterModel->create($request->all());
 
-        return response()->json([
-            "data"=>$data
-        ], 200);
+        return response()->json($user, 201);
+    }
+
+    public function registered(Request $request, $user)
+    {
+        $user=$this->RegisterModel->generateToken();
+
+        return response()->json(['data' => $user], 201);
     }
 }

@@ -96,6 +96,8 @@ class LoginController extends Controller
         //   $m=Auth::guard('register')->user()->id;
         //     dd($m);
             // $request->session()->put('user', $request->input());
+            //  return response()->json($user_data, 201)
+            //             ?: redirect('/');
             return redirect('/');
         } else {
             return redirect()->back()->withErrors(
@@ -130,6 +132,29 @@ class LoginController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function apiLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $user_data = array(
+            'email'  => $request->post('em'),
+            'password' => $request->post('pass')
+           );
+
+
+        if (Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        //   $m=Auth::guard('register')->user()->id;
+        //     dd($m);
+            // $request->session()->put('user', $request->input());
+            return response()->json(['message'=>'Login Success'], 201);
+        } else {
+            return response()->json(['error'=>'Login Failed'], 401);
+        }
     }
 
     public function logout(Request $request)

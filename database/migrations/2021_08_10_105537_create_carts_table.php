@@ -24,7 +24,6 @@ class CreateCartsTable extends Migration
 
             // $table->foreign('user_id')->references('id')->on('registers');
           
-
             $table->string('productname');
             $table->integer('ISBN_number');
             $table->double('qty');

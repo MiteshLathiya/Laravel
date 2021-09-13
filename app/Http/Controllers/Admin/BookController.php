@@ -245,4 +245,18 @@ class BookController extends Controller
       
         return view('layouts.frontend.product-details')->with('data', $data);
     }
+
+    public function apiBookView()
+    {
+        $data = $this->BookModel->all();
+
+        return response()->json([$data,'message'=>'Login Success'], 201);
+    }
+
+    public function apiProduct($id)
+    {
+        $data = $this->BookModel->find($id);
+      
+        return response()->json([$data], 201);
+    }
 }

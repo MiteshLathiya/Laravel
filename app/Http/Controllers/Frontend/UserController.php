@@ -163,4 +163,45 @@ class UserController extends Controller
     {
         //
     }
+
+    public function apiUser($id)
+    {
+        $data=UserModel::find($id);
+
+    
+        if ($data !== null) {
+            return response()->json($data, 201);
+        } else {
+            return response()->json(['error'=>'Failed'], 401);
+        }
+    }
+
+    public function apiUserUpdate(Request $request, $id)
+    {
+        $dataid=UserModel::find($id);
+
+
+        $data=array(
+
+            'firstname'=>$request->firstname,
+            'lastname'=>$request->lastname,
+            'mobile'=>$request->mobile,
+           
+            );
+       
+        if ($request->email !== null) {
+            $data=array(
+            'email'=>$request->email,
+            );
+        }
+
+       
+        if ($data !== null) {
+            $dataid->fill($data)->save();
+
+            return response()->json($data, 201);
+        } else {
+            return response()->json(['error'=>'update Failed'], 401);
+        }
+    }
 }

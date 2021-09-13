@@ -32,9 +32,12 @@
 										<label >First Name</label>
 										<input class="mb-0 form-control" type="text" name="fn"
 											placeholder="Enter your first name">
-											@error('fn')
-											<div class="alert alert-danger">{{ $message }}</div>
-											@enderror
+										
+												@error('fn')
+												<div class="alert alert-danger">{{ $message }}</div>
+												@enderror
+											
+										
 									</div>
                                     <div class="col-md-6">
 										<label >Last Name</label>
