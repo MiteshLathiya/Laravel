@@ -134,6 +134,13 @@ class LoginController extends Controller
         //
     }
 
+    public function logout(Request $request)
+    {
+        Auth::guard('register')->logout();
+        return redirect('/');
+    }
+
+    //api
     public function apiLogin(Request $request)
     {
         $request->validate([
@@ -141,25 +148,26 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $user_data = array(
-            'email'  => $request->post('em'),
-            'password' => $request->post('pass')
-           );
-
-
-        if (Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
-        //   $m=Auth::guard('register')->user()->id;
-        //     dd($m);
-            // $request->session()->put('user', $request->input());
-            return response()->json(['message'=>'Login Success'], 201);
-        } else {
-            return response()->json(['error'=>'Login Failed'], 401);
+        if (!Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            return response()->json([
+            'message' => 'Invalid login details'
+                       ], 401);
         }
+            
+            $user = LoginModel::where('email', $request['email'])->firstOrFail();
+            
+            $token = $user->createToken('usertoken')->plainTextToken;
+
+            $response = [
+                'user' => $user,
+                'token' => $token
+            ];
+        
+             return response($response, 201);
     }
 
-    public function logout(Request $request)
+    public function apiUser(Request $request)
     {
-        Auth::guard('register')->logout();
-        return redirect('/');
+        return $request->user();
     }
 }

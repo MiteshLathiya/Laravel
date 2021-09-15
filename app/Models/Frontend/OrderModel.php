@@ -20,9 +20,6 @@ class OrderModel extends Model
 
       const CREATED_AT = 'order_date';
      
-
-      
-
       protected $table='orders';
       protected $primaryKey = 'order_id';
 }

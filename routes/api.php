@@ -38,25 +38,34 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::post('/register', 'Frontend\RegisterController@register');
 // Route::post('register', 'Auth\RegisterController@register');
 
-Route::get('RegisterView', 'Frontend\CartController@index');
-Route::post('Insert', 'Frontend\CartController@register');
-Route::post('Login', 'Frontend\LoginController@apiLogin');
-
-Route::get('/EditUser{id}', 'Frontend\UserController@apiUser');
-Route::post('/EditUser{id}', 'Frontend\UserController@apiUserUpdate');
+Route::get('/RegisterView', 'Frontend\RegisterController@index');
+Route::post('/Register', 'Frontend\RegisterController@apiRegister');
+Route::post('/Login', 'Frontend\LoginController@apiLogin');
 
 
-Route::get('/Viewbook', 'Admin\BookController@apiBookView');
+Route::group(['middleware' => 'auth:sanctum'], function () {
 
-Route::get('/ViewProduct{id}', 'Admin\BookController@apiProduct');
+    Route::get('/EditUser{id}', 'Frontend\UserController@apiUser');
+    Route::post('/EditUser{id}', 'Frontend\UserController@apiUserUpdate');
+    
+    
+    Route::get('/Viewbook', 'Admin\BookController@apiBookView');
+    
+    Route::get('/ViewProduct{id}', 'Admin\BookController@apiProduct');
+    
+    Route::post('/AddToCart', 'Frontend\CartController@apiStore');
+    
+    Route::get('/CartView{id}{token}', 'Frontend\CartController@apiShow');
+    
+    Route::post('/UpdateCart', 'Frontend\CartController@apiEdit');
+    
+    Route::get('/DeleteCart{id}', 'Frontend\CartController@apiDelete');
+    
+    Route::post('/OrderInsert{id}', 'Frontend\OrderController@apiOrder');
+    
+    Route::post('/User', 'Frontend\LoginController@apiUser');
+});
 
-Route::post('/AddToCart', 'Frontend\CartController@apiStore');
-
-Route::get('/CartView{id}', 'Frontend\CartController@apiShow');
-
-Route::post('/UpdateCart', 'Frontend\CartController@apiEdit');
-
-Route::get('/DeleteCart{id}', 'Frontend\CartController@apiDelete');
 
 // Route::get('/Register/User', [RegisterController::class,'store']);
 

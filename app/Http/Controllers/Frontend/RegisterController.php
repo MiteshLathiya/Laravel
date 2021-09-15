@@ -94,7 +94,7 @@ class RegisterController extends Controller
                 // 'city'=>$request->ct,
                 // 'state'=>$request->st,
                 // 'country'=>$request->cn,
-                'password'=>$request->cn,
+                // 'password'=>$request->cn,
                 'password' => Hash::make($request->pass)
                 );
                 
@@ -232,24 +232,32 @@ class RegisterController extends Controller
         //                 ?: redirect($this->redirectPath());
     }
 
-    public function register(Request $request)
+    public function apiRegister(Request $request)
     {
 
         $request->validate(
-            [$request->all()
+            [
+                'firstname'=>'required|string',
+                'lastname'=>'required|string',
+                'email'=>'required|email|unique:registers,email',
+                'mobile'=>'required|digits:10',
+                'password' => 'required|min:6',
+               
             ],
         );
 
+            $data=array(
+                
+                'firstname'=>$request->firstname,
+                'lastname'=>$request->lastname,
+                'email' =>$request->email,
+                'mobile'=>$request->mobile,
+                'password' => Hash::make($request->password)
+                );
 
-        $user = $this->RegisterModel->create($request->all());
 
-        return response()->json($user, 201);
-    }
+            $user = $this->RegisterModel->create($data);
 
-    public function registered(Request $request, $user)
-    {
-        $user=$this->RegisterModel->generateToken();
-
-        return response()->json(['data' => $user], 201);
+            return response()->json($user, 201);
     }
 }
