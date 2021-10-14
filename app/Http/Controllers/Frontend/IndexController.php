@@ -51,21 +51,12 @@ class IndexController extends Controller
      */
     public function show()
     {
-        // $data=AddCategory::all();
-        // return view('blogs.admin.showblogscategory',['data'=>$data]);
-
-        $data=IndexModel::take(15)->get();
-     
-        // foreach ($data as $user) {
-        //     echo $user->id;
-        // }
-        // return view('layouts.frontend.content')->with('books', $data);
-        return view('layouts.frontend.content', ["data"=>$data]);
-        // return View::make("user/regprofile"
-        // $id=2;
-        // $data= $this->IndexModel->find($id);
        
-        // return view('layouts.frontend.content', ['data'=>$data]);
+
+        $data= $this->IndexModel->showalldata();
+     
+    
+        return view('layouts.frontend.content', ["data"=>$data]);
     }
 
     /**

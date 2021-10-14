@@ -38,7 +38,7 @@ Route::get('/CartView', 'Frontend\CartController@show')->name('cartview');
 
 Route::get('/EditCartView/{id}', 'Frontend\CartController@edit')->name('editcartview');
 Route::post('/UpdateCart', 'Frontend\CartController@update');
-Route::get('/DeleteCart/{id}/{product_id}/{qty}', 'Frontend\CartController@destroy')->name('deletecart');
+Route::get('/DeleteCart/{id}', 'Frontend\CartController@destroy')->name('deletecart');
 
 Route::get('/PlaceOrder', 'Frontend\CartController@showdata');
 Route::post('/OrderInsert', 'Frontend\OrderController@store');

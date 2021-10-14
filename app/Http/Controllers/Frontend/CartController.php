@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
-    public function __construct(CartModel $model)
+    public function __construct(CartModel $model, BookModel $bookmodel)
     {
+        $this->BookModel = $bookmodel;
         $this->CartModel = $model;
     }
    
@@ -46,11 +47,10 @@ class CartController extends Controller
     public function store(Request $request)
     {
 
-
         $data=array(
             
-        'user_id'=>$request->userid,
-        'product_id'=>$request->pid,
+        'user_id'=>$userid=$request->userid,
+        'product_id'=>$pid=$request->pid,
         'productname'=>$request->nm,
         'ISBN_number'=>$request->isbn,
         'qty'=>$request->qty,
@@ -58,39 +58,14 @@ class CartController extends Controller
         'subtotal'=>$request->qty*$request->price,
             );
 
-           
 
-            $user = CartModel::
-            where('user_id', '=', $request->userid)
-            ->where('product_id', '=', $request->pid)->first();
-
+            $user = $this->CartModel->showdata($userid, $pid);
+         
           
         if ($user !== null) {
-            // $message = ['message' => 'Book already exist in your cart'];
             return redirect()->route('home')->with('message', 'Book already exist in your cart');
         } else {
-            // $id = $request->pid;
-
-   
-
-            // $bookdata = BookModel::find($id);
-  
-    
-
-            //  $quantity = $bookdata->quantity-$request->qty;
-    
-            // $qty=array(
-            //     'quantity'=>$quantity,
-            // );
-    
-
-            // $bookdata->fill($qty)->save();
-            // $model->fill($inputs);
-
-            // $model=BookModel::fill($qty)::save();
-    
-   
-            $this->CartModel->create($data);
+            $this->CartModel->insertdata($data);
             return redirect()->route('cartview')->with('success', 'Book Added Succesfully!');
         }
     }
@@ -109,22 +84,16 @@ class CartController extends Controller
             $id=Auth::guard('register')->user()->id;
         }
 
-           
-         
+              
 
-          $data= $this->CartModel->select()
-          ->join('registers', 'registers.id', '=', 'user_id')
-          ->join('books', 'books.id', '=', 'product_id')
-          ->where('user_id', $id)
-          ->get();
+          $data= $this->CartModel->showjoindata($id);
 
-        $count= CartModel::
-        where('user_id', '=', $id)
-        ->count();
+        $count= $this->CartModel->countvalue($id);
+    
         // dd($count);
         $request->session()->put('count', $count);
 
-         $total= CartModel::where('user_id', $id)->sum('subtotal');
+         $total= $this->CartModel->totalsum($id);
 
          $request->session()->put('subtotal', $total);
         //  dd($total);
@@ -141,17 +110,10 @@ class CartController extends Controller
             $id=Auth::guard('register')->user()->id;
         }
        
-          $data= $this->CartModel->select()
-          ->join('registers', 'registers.id', '=', 'user_id')
-          ->join('books', 'books.id', '=', 'product_id')
-          ->where('user_id', $id)
-          ->get();
+          $data= $this->CartModel->showjoindata($id);
       
-         $total= CartModel::where('user_id', $id)->sum('subtotal');
-        //  dd($total);
-       
-        //   $data=DB::table('carts')->select()->where('carts.user_id', '=', $id)->get();
-        //   DB::table('users')
+         $total= $this->CartModel->totalsum($id);
+    
      
           return view('layouts.frontend.orders')->with('data', $data)->with('total', $total);
     }
@@ -164,14 +126,9 @@ class CartController extends Controller
     public function edit($id)
     {
        
-        $data= $this->CartModel->select()
-        ->join('registers', 'registers.id', '=', 'user_id')
-        ->join('books', 'books.id', '=', 'product_id')
-        ->where('cart_id', '=', $id)
-        ->get();
+        $data= $this->CartModel->showcart($id)
+        ;
         
-
-      
 
         return view('layouts.frontend.cart_edit')->with('data', $data);
     }
@@ -185,13 +142,8 @@ class CartController extends Controller
      */
     public function update(Request $request)
     {
-        $id = $request->id;
       
-       
-
         $id=$request->cartid;
-
-        $cartid = $this->CartModel->find($id);
 
         $data=array(
            
@@ -202,7 +154,7 @@ class CartController extends Controller
         );
 
         // $dataid=$request->
-        $cartid->fill($data)->save();
+        $this->CartModel->updatecart($data, $id);
         
 
         return redirect()->route('cartview')->with('update', 'Cart update sucessfully!');
@@ -214,33 +166,37 @@ class CartController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $product_id, $qty)
+    public function destroy($id)
     {
-        $bookdata= BookModel::where('id', $product_id)->get(['quantity']);
+        // $bookdata= $this->BookModel->showqty($product_id);
         // = BookModel::find($product_id);
-        foreach ($bookdata as $book) {
-            $bookqty= $book->quantity;
-        }
+        // foreach ($bookdata as $book) {
+        //     $bookqty= $book->quantity;
+        // }
    
-        $totalqty= $bookqty+$qty;
+        // $totalqty= $bookqty+$qty;
 
-        $qty=array(
-        'quantity'=>$totalqty,
-        );
+        // $data=array(
+        // 'quantity'=>$totalqty,
+        // );
     
-        $modeldata= BookModel::find($product_id);
+        // $modeldata= $this->BookModel->showbook($product_id);
   
-        $modeldata->fill($qty)->save();
+    //    $this->BookModel->updatedata($data,$product_id);
 
 
-        $this->CartModel->destroy($id);
+        $this->CartModel->deletedata($id);
         return redirect()->route('cartview')->with('delete', 'Product deleted sucessfully!');
     }
 
     public function apiStore(Request $request)
     {
+// dd('hi');
 
-        $bookdata= BookModel::where('id', $request->pid)->get();
+
+        $product_id=$request->product_id;
+
+        $bookdata= $this->BookModel->showbook($product_id);
 
         foreach ($bookdata as $book) {
             $nm= $book->name;
@@ -250,8 +206,8 @@ class CartController extends Controller
 
         $data=array(
             
-            'user_id'=>$request->userid,
-            'product_id'=>$request->pid,
+            'user_id'=>$request->user_id,
+            'product_id'=>$request->product_id,
             'productname'=>$nm,
             'ISBN_number'=>$num,
             'qty'=>$request->qty,
@@ -262,7 +218,7 @@ class CartController extends Controller
                
               
         if ($data !== null) {
-            $this->CartModel->create($data);
+            $this->CartModel->insertdata($data);
             return response()->json([$data,'success'=>'added'], 201);
         } else {
             return response()->json([$data,'error'=>'Failed'], 401);
@@ -272,7 +228,7 @@ class CartController extends Controller
     public function apiShow(Request $request, $id)
     {
       
-        $data= $this->CartModel->where('user_id', $id)->get();
+        $data= $this->CartModel->showuser($id);
         
         //   $data= $this->CartModel->select()
         //   ->join('registers', 'registers.id', '=', 'user_id')
@@ -285,12 +241,12 @@ class CartController extends Controller
 
     public function apiEdit(Request $request)
     {
-        $id = $request->id;
-        $id=$request->cartid;
+        // $id = $request->id;
+        $id=$request->cart_id;
 
         // $cartid = $this->CartModel->find($id);
-        $cartid= $this->CartModel->where('cart_id', $id)->get();
-       
+        $cartid= $this->CartModel->showcart($id);
+    
 
         foreach ($cartid as $cartdata) {
             $pr=$cartdata->price;
@@ -306,38 +262,15 @@ class CartController extends Controller
         );
 // dd($data);
      
-        $this->CartModel->where('cart_id', $id)->update($data);
+        $this->CartModel->updatecart($data, $id);
       
           return response()->json([$data,'Update'=>'Sucess']);
     }
 
     public function apiDelete($id)
     {
-        $cartid= $this->CartModel->where('cart_id', $id)->get();
-
-        foreach ($cartid as $cartdata) {
-            $product_id = $cartdata->product_id;
-            $qty =$cartdata->qty;
-        }
         
-        $bookdata= BookModel::where('id', $product_id)->get(['quantity']);
-        // = BookModel::find($product_id);
-        foreach ($bookdata as $book) {
-            $bookqty= $book->quantity;
-        }
-   
-        $totalqty= $bookqty+$qty;
-
-        $qtydata=array(
-        'quantity'=>$totalqty,
-        );
-    
-        $modeldata= BookModel::find($product_id);
-  
-        $modeldata->fill($qtydata)->save();
-
-
-        $this->CartModel->destroy($id);
+        $this->CartModel->deletedata($id);
         return response()->json(['Deleted'=>'Sucessfully!']);
     }
 }

@@ -19,26 +19,17 @@ use App\Http\Controllers\Frontend\RegisterController;
 |
 */
 
+
+
+// Route::post('/register', 'Frontend\RegisterController@register');
+// Route::post('register', 'Auth\RegisterController@register');
+// Route::get('/RegisterView', 'Frontend\RegisterController@index');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-// Route::post('register', function(Request $request) {
-//     return RegisterModel::create($request->all);
-// });
-
-// Route::post('/register', 'Frontend\RegisterController@register');
-// Route::post('register', function(Request $request) {
-//     // If the Content-Type and Accept headers are set to 'application/json',
-//     // this will return a JSON structure. This will be cleaned up later.
-//     return 'hii';
-// });
-
-// Route::post('/register', 'Frontend\RegisterController@register');
-// Route::post('register', 'Auth\RegisterController@register');
-
-Route::get('/RegisterView', 'Frontend\RegisterController@index');
 Route::post('/Register', 'Frontend\RegisterController@apiRegister');
 Route::post('/Login', 'Frontend\LoginController@apiLogin');
 
@@ -55,15 +46,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     
     Route::post('/AddToCart', 'Frontend\CartController@apiStore');
     
-    Route::get('/CartView{id}{token}', 'Frontend\CartController@apiShow');
+    Route::get('/CartView{id}', 'Frontend\CartController@apiShow');
     
     Route::post('/UpdateCart', 'Frontend\CartController@apiEdit');
     
-    Route::get('/DeleteCart{id}', 'Frontend\CartController@apiDelete');
+    Route::post('/DeleteCart{id}', 'Frontend\CartController@apiDelete');
     
     Route::post('/OrderInsert{id}', 'Frontend\OrderController@apiOrder');
-    
-    Route::post('/User', 'Frontend\LoginController@apiUser');
+
+    Route::get('/UserLogout', 'Frontend\LoginController@apiLogout');
 });
 
 

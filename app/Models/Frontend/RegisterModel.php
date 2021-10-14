@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class RegisterModel extends Model
 {
-    
+
     protected $fillable=[
         'firstname','lastname','email','mobile','password'
     ];
@@ -17,8 +17,7 @@ class RegisterModel extends Model
 
     public function userinsert($data)
     {
-        $user = new RegisterModel;
 
-        $user->create($data);
+        return  RegisterModel::create($data);
     }
 }

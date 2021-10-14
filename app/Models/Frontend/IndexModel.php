@@ -13,4 +13,10 @@ class IndexModel extends Model
       ];
 
     protected $table='books';
+
+    public function showalldata()
+    {
+
+        return  IndexModel::take(15)->get();
+    }
 }

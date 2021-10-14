@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Frontend;
 
 use PDF;
 use App\Exports\UsersExport;
-use App\Imports\UsersImport;
 use Illuminate\Http\Request;
 use App\Models\Admin\BookModel;
 use App\Models\Frontend\CartModel;
@@ -16,9 +15,10 @@ use App\Exports\UserMultiSheetExport;
 
 class OrderController extends Controller
 {
-    public function __construct(OrderModel $model)
+    public function __construct(OrderModel $model, CartModel $cartModel)
     {
         $this->OrderModel = $model;
+         $this->CartModel = $cartModel;
     }
     /**
      * Display a listing of the resource.
@@ -53,11 +53,8 @@ class OrderController extends Controller
             $id=Auth::guard('register')->user()->id;
         }
            
-          $data= CartModel::select()
-          ->join('registers', 'registers.id', '=', 'user_id')
-          ->join('books', 'books.id', '=', 'product_id')
-          ->where('user_id', $id)
-          ->get();
+          $data= $this->CartModel->showjoindata();
+      
  
         foreach ($data as $data1) {
             $order = new OrderModel();
@@ -363,14 +360,15 @@ class OrderController extends Controller
             $order->postcode = $request->postcode;
             $order->city = $request->city;
             $order->state = $request->state;
+            $order->payment = $request->payment;
             $order->quantity = $data1['qty'];
             // dd($a);
             $order->grandtotal = $total;
 
-            $order->payment = $request->payment;
             $order->save();
         }
-                         
+        $result = $this->CartModel->where(['user_id'=> $id])->delete();
+        //  $this->CartModel->deletedata($id); 
                       return response()->json(['Success'=>'Order Added'], 201);
     }
 }

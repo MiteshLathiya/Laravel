@@ -87,7 +87,7 @@ class UserController extends Controller
 
             $id=$request->id;
             $pass=$request->oldpass;
-            $newpass=$request->newpass;
+            $newpass=Hash::make($request->newpass);
           
             $cpass=$request->cpass;
         
@@ -107,35 +107,29 @@ class UserController extends Controller
                 'cpass' => 'required|same:newpass'
              ], $messages);
     
-             $dataid = $this->UserModel->find($id);
+             $dataid = $this->UserModel->finduser($id);
 
             if (Hash::check($request->oldpass, $dataid->password)) {
-                $dataid->fill([
-                'password' => Hash::make($request->newpass)
-                ])->save();
-                
-                $data= $this->UserModel->all();
+                $passdata= array(
+                    'password' => Hash::make($request->newpass)
+                    );
+
+                 $this->UserModel->changepassword($passdata, $id);
+
+                $data= $this->UserModel->alldata();
                 // $request->session()->flash('success', 'Password changed');
                
                 return view('layouts.frontend.user_account')->with('data', $data)->with('successMsg', 'Password changed 
                 sucessfully');
             } else {
-                $data= $this->UserModel->all();
+                $data= $this->UserModel->alldata();
                 //  $request->session()->flash('error', 'Password does not match');
                 return view('layouts.frontend.user_account')->with('data', $data)
                 ->with('errorMsg', 'Old Password does not match!');
             }
-
-                $data=array(
-                    // 'password'=>$request->newpass,
-                    'password' => Hash::make($request->cpass)
-                    );
-                
-              
-                $dataid->fill($data)->save();
         }
 
-            $dataid = $this->UserModel->find($id);
+            
 
         $data=array(
 
@@ -147,10 +141,10 @@ class UserController extends Controller
             );
 
         
-       
-        $dataid->fill($data)->save();
+    //    dd($data);
+            $this->UserModel->updateuser($data, $id);
 
-        return redirect()->route('userprofile')->with('update', 'User updated sucessfully!');
+        return redirect('UserProfile')->with('update', 'User updated sucessfully!');
     }
 
     /**
@@ -166,7 +160,7 @@ class UserController extends Controller
 
     public function apiUser($id)
     {
-        $data=UserModel::find($id);
+        $data= $this->UserModel->finduser($id);
 
     
         if ($data !== null) {
@@ -178,7 +172,7 @@ class UserController extends Controller
 
     public function apiUserUpdate(Request $request, $id)
     {
-        $dataid=UserModel::find($id);
+        $dataid = $this->UserModel->finduser($id);
 
 
         $data=array(
@@ -189,6 +183,23 @@ class UserController extends Controller
            
             );
        
+            if ($request->firstname !== null) {
+                $data=array(
+                'firstname'=>$request->firstname,
+                );
+            }
+            if ($request->lastname !== null) {
+                $data=array(
+                'lastname'=>$request->lastname,
+                );
+            }
+            if ($request->mobile !== null) {
+                $data=array(
+                'mobile'=>$request->mobile,
+                );
+            }
+            
+
         if ($request->email !== null) {
             $data=array(
             'email'=>$request->email,
@@ -197,7 +208,7 @@ class UserController extends Controller
 
        
         if ($data !== null) {
-            $dataid->fill($data)->save();
+            $dataid = $this->UserModel->updateuser($data,$id);
 
             return response()->json($data, 201);
         } else {

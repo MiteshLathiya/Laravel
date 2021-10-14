@@ -9,8 +9,9 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function __construct()
+    public function __construct(LoginModel $model)
     {
+         $this->LoginModel = $model;
             $this->middleware('guest')->except('logout');
             $this->middleware('guest:register')->except('logout');
     }
@@ -86,18 +87,8 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $user_data = array(
-            'email'  => $request->post('em'),
-            'password' => $request->post('pass')
-           );
-
 
         if (Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
-        //   $m=Auth::guard('register')->user()->id;
-        //     dd($m);
-            // $request->session()->put('user', $request->input());
-            //  return response()->json($user_data, 201)
-            //             ?: redirect('/');
             return redirect('/');
         } else {
             return redirect()->back()->withErrors(
@@ -106,22 +97,6 @@ class LoginController extends Controller
                 ]
             );
         }
-     
-  
-
-        // return back()->withInput($request->only('email', 'remember'));
-
-        // if (Auth::attempt($user_data)) {
-        //     $request->session()->put('data', $request->input());
-                
-        //     return redirect('/');
-        // } else {
-        //     return redirect()->back()->withErrors(
-        //         [
-        //          'loginfailed' => 'Please check your email and password!'
-        //         ]
-        //     );
-        // }
     }
     /**
      * Remove the specified resource from storage.
@@ -134,9 +109,9 @@ class LoginController extends Controller
         //
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
-        Auth::guard('register')->logout();
+        $this->LoginModel->userlogout();
         return redirect('/');
     }
 
@@ -148,13 +123,19 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        if (!Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::guard('register')->attempt(['email' => $request->email, 'password' => $request->password])) {
+          
+        } else {
             return response()->json([
-            'message' => 'Invalid login details'
-                       ], 401);
-        }
+                    'message' => 'Invalid login details'
+                               ], 401);
             
-            $user = LoginModel::where('email', $request['email'])->firstOrFail();
+        }
+
+     
+            $email = $request->email;
+
+            $user = $this->LoginModel->findemail($email);
             
             $token = $user->createToken('usertoken')->plainTextToken;
 
@@ -166,8 +147,9 @@ class LoginController extends Controller
              return response($response, 201);
     }
 
-    public function apiUser(Request $request)
+    public function apiLogout()
     {
-        return $request->user();
+        $this->LoginModel->userlogout();
+        return response()->json(['message' => 'logout success'], 200);
     }
 }

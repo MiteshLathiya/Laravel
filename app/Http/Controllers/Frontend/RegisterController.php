@@ -256,7 +256,7 @@ class RegisterController extends Controller
                 );
 
 
-            $user = $this->RegisterModel->create($data);
+            $user = $this->RegisterModel->userinsert($data);
 
             return response()->json($user, 201);
     }
